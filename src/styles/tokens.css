@@ -1,0 +1,16 @@
+/* Design tokens — imported in src/app/globals.css */
+
+@theme {
+  /* Palette */
+  --color-gold: #F5C842;
+  --color-gold-soft: #FFE9A0;
+  --color-summit: #FFFDF5;
+  --color-deep: #0A0A0F;
+  --color-surface: rgba(255, 255, 255, 0.06);
+
+  /* Typography scale */
+  --font-display: var(--font-sans);
+
+  /* Spacing */
+  --section-padding: clamp(4rem, 10vw, 10rem);
+}
