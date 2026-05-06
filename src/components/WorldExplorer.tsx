@@ -143,7 +143,7 @@ export default function WorldExplorer() {
       ) : null}
 
       <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/20 bg-black/45 px-4 py-2 text-xs tracking-[0.18em] text-zinc-100/90 backdrop-blur sm:text-sm">
-        WASD mover · Mouse mirar · Shift sprint · Espacio subir · Ctrl bajar
+        WASD mover · Mouse mirar · Shift sprint
       </div>
     </main>
   );

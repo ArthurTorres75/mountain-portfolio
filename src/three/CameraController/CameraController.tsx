@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Vector3 } from "three";
 
+import { getTerrainHeightAt } from "@/lib";
+
 export interface CameraControllerProps {
   locations: { id: string; worldPosition: [number, number, number] }[];
   onNearestLocationChange?: (locationId: string | null) => void;
@@ -20,6 +22,7 @@ const MIN_PITCH = -Math.PI / 3.2;
 const MAX_PITCH = Math.PI / 4;
 const FLOOR_Y = 1.15;
 const CEILING_Y = 3.8;
+const EYE_HEIGHT = 1.45;
 const WORLD_MARGIN_X = 16;
 const WORLD_MARGIN_Z = 18;
 const MIN_WORLD_X = -24;
@@ -40,8 +43,6 @@ export default function CameraController({
     backward: false,
     left: false,
     right: false,
-    ascend: false,
-    descend: false,
     sprint: false,
   });
   const nearestLocationRef = useRef<string | null>(null);
@@ -89,7 +90,7 @@ export default function CameraController({
 
     camera.position.set(
       tx + 2.6,
-      Math.min(CEILING_Y, Math.max(FLOOR_Y, ty + 1.6)),
+      Math.min(CEILING_Y, Math.max(FLOOR_Y, getTerrainHeightAt(tx + 2.6, tz + 2.8) + EYE_HEIGHT)),
       tz + 2.8
     );
 
@@ -140,16 +141,9 @@ export default function CameraController({
         case "ArrowRight":
           movementRef.current.right = pressed;
           break;
-        case "Space":
-          movementRef.current.ascend = pressed;
-          break;
         case "ShiftLeft":
         case "ShiftRight":
           movementRef.current.sprint = pressed;
-          break;
-        case "ControlLeft":
-        case "ControlRight":
-          movementRef.current.descend = pressed;
           break;
         case "KeyE":
           if (pressed && nearestLocationRef.current && onEnterLocation) {
@@ -202,21 +196,17 @@ export default function CameraController({
     if (movementRef.current.left) {
       movementDirection.sub(right);
     }
-    if (movementRef.current.ascend) {
-      movementDirection.y += 0.45;
-    }
-    if (movementRef.current.descend) {
-      movementDirection.y -= 0.45;
-    }
-
     if (movementDirection.lengthSq() > 0) {
       movementDirection.normalize().multiplyScalar(speed);
       camera.position.add(movementDirection);
     }
 
-    camera.position.y = Math.min(CEILING_Y, Math.max(FLOOR_Y, camera.position.y));
     camera.position.x = Math.min(worldBounds.maxX, Math.max(worldBounds.minX, camera.position.x));
     camera.position.z = Math.min(worldBounds.maxZ, Math.max(worldBounds.minZ, camera.position.z));
+    camera.position.y = Math.min(
+      CEILING_Y,
+      Math.max(FLOOR_Y, getTerrainHeightAt(camera.position.x, camera.position.z) + EYE_HEIGHT)
+    );
 
     lookDirection.set(
       Math.sin(yawRef.current) * Math.cos(pitchRef.current),
@@ -246,7 +236,7 @@ export default function CameraController({
       nearestLocationRef.current = nextNearest;
       onNearestLocationChange?.(nextNearest);
     }
-  }, [locations, lookDirection, lookTarget, movementDirection, onNearestLocationChange, right, worldBounds, forward, camera]);
+  });
 
   return null;
 }

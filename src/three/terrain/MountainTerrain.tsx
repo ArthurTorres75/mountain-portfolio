@@ -9,8 +9,7 @@ export default function MountainTerrain() {
     [0, -26, 9],
     [10, -20, 6],
     [0, -16, 5.5],
-    [-5.5, -10, 4],
-    [6.5, -9, 3.8],
+    [19, -30, 4],
   ];
 
   const isInsideMountain = (x: number, z: number, padding = 0) => {
@@ -107,15 +106,6 @@ export default function MountainTerrain() {
     [0.1, -0.778, -18.0, 2.2, 12.0, 0],
   ];
 
-  const brokenPathCuts: [number, number, number, number, number, number][] = [
-    [0, -0.777, -4.2, 3.2, 1.35, 0],
-    [0, -0.777, -10.7, 3.6, 1.35, 0],
-    [-6.6, -0.777, -13.7, 2.5, 1.2, 0.28],
-    [6.8, -0.777, -14.1, 2.5, 1.2, -0.22],
-    [-8.6, -0.777, -7.6, 2.2, 1.15, 0.12],
-    [8.8, -0.777, -7.4, 2.2, 1.15, -0.12],
-  ];
-
   const lakePositions: [number, number, number, number, number, number][] = [
     [-5.5, -0.76, 0.5, 5.0, 4.0, 0],
     [-14.2, -0.758, -0.8, 5.6, 3.8, 0.12],
@@ -193,35 +183,12 @@ export default function MountainTerrain() {
         <coneGeometry args={[5.5, 9, 7]} />
         <meshToonMaterial color="#3d6b85" />
       </mesh>
-      <mesh position={[-5.5, 2, -10]}>
+      <mesh position={[19, 2, -30]}>
         <coneGeometry args={[4, 6.5, 6]} />
         <meshToonMaterial color="#4a7a6a" />
       </mesh>
-      <mesh position={[6.5, 1.8, -9]}>
-        <coneGeometry args={[3.8, 5.8, 6]} />
-        <meshToonMaterial color="#3e6e5e" />
-      </mesh>
-
-      {/* Snow caps hugging the mountain peaks */}
-      <mesh position={[0, 7.25, -16]}>
-        <coneGeometry args={[2.1, 2.1, 7]} />
-        <meshToonMaterial color="#e8eef5" />
-      </mesh>
-      <mesh position={[0, 11.55, -26]}>
-        <coneGeometry args={[2.7, 2.4, 6]} />
-        <meshToonMaterial color="#f0f4fa" />
-      </mesh>
-      <mesh position={[-8, 7.65, -22]}>
-        <coneGeometry args={[1.6, 1.8, 5]} />
-        <meshToonMaterial color="#eef3f9" />
-      </mesh>
-      <mesh position={[10, 7.35, -20]}>
-        <coneGeometry args={[1.35, 1.5, 5]} />
-        <meshToonMaterial color="#e9eff6" />
-      </mesh>
-
       {/* Foreground hills — rolling green */}
-      <mesh position={[-3.5, 0, -3.5]}>
+      <mesh position={[-22, 0, 10]}>
         <sphereGeometry args={[2.2, 6, 5]} />
         <meshToonMaterial color="#5e9166" />
       </mesh>
@@ -288,20 +255,6 @@ export default function MountainTerrain() {
           <mesh position={[0, 1.24, 0]}>
             <boxGeometry args={[0.22, 0.22, 0.22]} />
             <meshStandardMaterial color="#F5C842" emissive="#F5C842" emissiveIntensity={0.8} />
-          </mesh>
-        </group>
-      ))}
-
-      {/* Broken cuts on trails and main path */}
-      {brokenPathCuts.map(([x, y, z, width, length, rotationY], i) => (
-        <group key={`path-cut-${i}`} position={[x, y, z]} rotation={[0, rotationY, 0]}>
-          <mesh rotation={[-Math.PI / 2, 0, 0]}>
-            <planeGeometry args={[width, length, 1, 1]} />
-            <meshToonMaterial color="#3d5f79" />
-          </mesh>
-          <mesh position={[0, -0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-            <planeGeometry args={[width * 0.76, length * 0.7, 1, 1]} />
-            <meshToonMaterial color="#4a90b8" />
           </mesh>
         </group>
       ))}
