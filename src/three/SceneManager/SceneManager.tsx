@@ -17,12 +17,14 @@ interface SceneManagerProps {
   locations: WorldLocation[];
   onEnterLocation: (locationId: string) => void;
   onNearestLocationChange: (locationId: string | null) => void;
+  selectedLocationId: string;
 }
 
 export default function SceneManager({
   locations,
   onEnterLocation,
   onNearestLocationChange,
+  selectedLocationId,
 }: SceneManagerProps) {
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") {
@@ -74,6 +76,7 @@ export default function SceneManager({
           locations={locations}
           onEnterLocation={onEnterLocation}
           onNearestLocationChange={onNearestLocationChange}
+          focusLocationId={selectedLocationId}
         />
       </Suspense>
     </Canvas>

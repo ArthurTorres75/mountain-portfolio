@@ -9,6 +9,7 @@ export interface CameraControllerProps {
   onNearestLocationChange?: (locationId: string | null) => void;
   onEnterLocation?: (locationId: string) => void;
   enabled?: boolean;
+  focusLocationId?: string;
 }
 
 const LOOK_SENSITIVITY = 0.0023;
@@ -19,12 +20,19 @@ const MIN_PITCH = -Math.PI / 3.2;
 const MAX_PITCH = Math.PI / 4;
 const FLOOR_Y = 1.15;
 const CEILING_Y = 3.8;
+const WORLD_MARGIN_X = 16;
+const WORLD_MARGIN_Z = 18;
+const MIN_WORLD_X = -24;
+const MAX_WORLD_X = 24;
+const MIN_WORLD_Z = -34;
+const MAX_WORLD_Z = 18;
 
 export default function CameraController({
   locations,
   onNearestLocationChange,
   onEnterLocation,
   enabled = true,
+  focusLocationId,
 }: CameraControllerProps) {
   const { camera, gl } = useThree();
   const movementRef = useRef({
@@ -45,6 +53,53 @@ export default function CameraController({
   const movementDirection = useMemo(() => new Vector3(), []);
   const lookDirection = useMemo(() => new Vector3(), []);
   const lookTarget = useMemo(() => new Vector3(), []);
+  const focusDirection = useMemo(() => new Vector3(), []);
+  const worldBounds = useMemo(() => {
+    if (locations.length === 0) {
+      return {
+        minX: MIN_WORLD_X,
+        maxX: MAX_WORLD_X,
+        minZ: MIN_WORLD_Z,
+        maxZ: MAX_WORLD_Z,
+      };
+    }
+
+    const xs = locations.map((location) => location.worldPosition[0]);
+    const zs = locations.map((location) => location.worldPosition[2]);
+
+    return {
+      minX: Math.min(MIN_WORLD_X, Math.min(...xs) - WORLD_MARGIN_X),
+      maxX: Math.max(MAX_WORLD_X, Math.max(...xs) + WORLD_MARGIN_X),
+      minZ: Math.min(MIN_WORLD_Z, Math.min(...zs) - WORLD_MARGIN_Z),
+      maxZ: Math.max(MAX_WORLD_Z, Math.max(...zs) + WORLD_MARGIN_Z),
+    };
+  }, [locations]);
+
+  useEffect(() => {
+    if (!enabled || !focusLocationId) {
+      return;
+    }
+
+    const focusLocation = locations.find((location) => location.id === focusLocationId);
+    if (!focusLocation) {
+      return;
+    }
+
+    const [tx, ty, tz] = focusLocation.worldPosition;
+
+    camera.position.set(
+      tx + 2.6,
+      Math.min(CEILING_Y, Math.max(FLOOR_Y, ty + 1.6)),
+      tz + 2.8
+    );
+
+    focusDirection.set(tx - camera.position.x, ty + 0.75 - camera.position.y, tz - camera.position.z).normalize();
+    yawRef.current = Math.atan2(focusDirection.x, -focusDirection.z);
+    pitchRef.current = Math.min(MAX_PITCH, Math.max(MIN_PITCH, Math.asin(focusDirection.y)));
+
+    nearestLocationRef.current = focusLocation.id;
+    onNearestLocationChange?.(focusLocation.id);
+  }, [camera.position, enabled, focusDirection, focusLocationId, locations, onNearestLocationChange]);
 
   useEffect(() => {
     if (!enabled) {
@@ -90,8 +145,11 @@ export default function CameraController({
           break;
         case "ShiftLeft":
         case "ShiftRight":
-          movementRef.current.descend = pressed;
           movementRef.current.sprint = pressed;
+          break;
+        case "ControlLeft":
+        case "ControlRight":
+          movementRef.current.descend = pressed;
           break;
         case "KeyE":
           if (pressed && nearestLocationRef.current && onEnterLocation) {
@@ -157,8 +215,8 @@ export default function CameraController({
     }
 
     camera.position.y = Math.min(CEILING_Y, Math.max(FLOOR_Y, camera.position.y));
-    camera.position.x = Math.min(11, Math.max(-11, camera.position.x));
-    camera.position.z = Math.min(9, Math.max(-20, camera.position.z));
+    camera.position.x = Math.min(worldBounds.maxX, Math.max(worldBounds.minX, camera.position.x));
+    camera.position.z = Math.min(worldBounds.maxZ, Math.max(worldBounds.minZ, camera.position.z));
 
     lookDirection.set(
       Math.sin(yawRef.current) * Math.cos(pitchRef.current),
@@ -188,7 +246,7 @@ export default function CameraController({
       nearestLocationRef.current = nextNearest;
       onNearestLocationChange?.(nextNearest);
     }
-  });
+  }, [locations, lookDirection, lookTarget, movementDirection, onNearestLocationChange, right, worldBounds, forward, camera]);
 
   return null;
 }

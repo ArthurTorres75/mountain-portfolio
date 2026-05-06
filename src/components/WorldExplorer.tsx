@@ -52,9 +52,9 @@ const WORLD_LOCATIONS: WorldLocation[] = [
     label: "Hidden Sanctuary",
     title: "Place Of Purpose",
     description:
-      "Before the first step, there was already a path. Before I understood the road, purpose was waiting.",
-    secondary: "Faith gave strength through every climb.",
-    worldPosition: [0.3, 0.45, -12.0],
+      "Jesus said, \"I am the way and the truth and the life.\"",
+    secondary: "John 14:6",
+    worldPosition: [-9.6, 0.28, -12.8],
   },
   {
     id: SECTION.CONTACT,
@@ -62,7 +62,7 @@ const WORLD_LOCATIONS: WorldLocation[] = [
     title: "Let Us Build Something Lasting",
     description: "I build with discipline, gratitude, and purpose.",
     secondary: "Guided since before the beginning.",
-    worldPosition: [0.1, 0.8, -15.2],
+    worldPosition: [8.1, 0.24, -13.8],
   },
 ];
 
@@ -86,6 +86,7 @@ export default function WorldExplorer() {
         locations={WORLD_LOCATIONS}
         onEnterLocation={handleEnterLocation}
         onNearestLocationChange={setNearestLocationId}
+        selectedLocationId={selectedLocationId}
       />
 
       <section className="pointer-events-none relative z-10 flex h-full flex-col justify-between p-4 sm:p-7 lg:p-10">
@@ -142,7 +143,7 @@ export default function WorldExplorer() {
       ) : null}
 
       <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/20 bg-black/45 px-4 py-2 text-xs tracking-[0.18em] text-zinc-100/90 backdrop-blur sm:text-sm">
-        WASD mover · Mouse mirar · Shift sprint · Espacio subir
+        WASD mover · Mouse mirar · Shift sprint · Espacio subir · Ctrl bajar
       </div>
     </main>
   );

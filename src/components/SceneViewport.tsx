@@ -13,12 +13,14 @@ interface SceneViewportProps {
   locations: WorldLocation[];
   onEnterLocation: (locationId: string) => void;
   onNearestLocationChange: (locationId: string | null) => void;
+  selectedLocationId: string;
 }
 
 export default function SceneViewport({
   locations,
   onEnterLocation,
   onNearestLocationChange,
+  selectedLocationId,
 }: SceneViewportProps) {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -47,6 +49,7 @@ export default function SceneViewport({
           locations={locations}
           onEnterLocation={onEnterLocation}
           onNearestLocationChange={onNearestLocationChange}
+          selectedLocationId={selectedLocationId}
         />
       )}
     </div>

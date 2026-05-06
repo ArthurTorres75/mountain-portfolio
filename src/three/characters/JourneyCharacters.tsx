@@ -155,6 +155,7 @@ export default function JourneyCharacters() {
         bodyColor="#3a5080"
         shirtColor="#4a72b8"
         skinColor="#d4a87a"
+        scale={0.72}
         bobOffset={0}
       />
 
@@ -176,14 +177,24 @@ export default function JourneyCharacters() {
         bobOffset={1.2}
       />
 
-      {/* Arthur at the sanctuary / summit zone */}
+      {/* Jesus NPC at the hidden sanctuary */}
       <Character
-        position={[0.3, 0.1, -12.0]}
+        position={[-9.6, 0.18, -12.8]}
         bodyColor="#3a5080"
         shirtColor="#4a72b8"
         skinColor="#d4a87a"
-        scale={0.9}
+        scale={0.68}
         bobOffset={0.8}
+      />
+
+      {/* Wife NPC at the summit viewpoint */}
+      <Character
+        position={[8.5, 0.1, -13.9]}
+        bodyColor="#6f4c8b"
+        shirtColor="#c06c84"
+        skinColor="#d7ab86"
+        scale={0.7}
+        bobOffset={1.7}
       />
     </group>
   );
