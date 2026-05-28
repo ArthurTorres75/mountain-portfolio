@@ -1,8 +1,8 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Environment, Sky } from "@react-three/drei";
+import { Environment, Sky, useProgress } from "@react-three/drei";
 
 import CameraController from "@/three/CameraController";
 import JourneyCharacters from "@/three/characters/JourneyCharacters";
@@ -18,12 +18,44 @@ import AudioSystem from "@/three/audio/AudioSystem";
 import LocationMarkers from "./LocationMarkers";
 import PostProcessing from "./PostProcessing";
 
+// Tracks Three.js asset loading (mainly Environment HDR) and enforces a
+// minimum display time so the loader always feels intentional.
+function ProgressTracker({ onReady }: { onReady?: () => void }) {
+  const { active } = useProgress();
+  const firedRef   = useRef(false);
+  const timerDone  = useRef(false);
+  const sceneDone  = useRef(false);
+
+  const tryFire = () => {
+    if (!firedRef.current && timerDone.current && sceneDone.current) {
+      firedRef.current = true;
+      onReady?.();
+    }
+  };
+
+  // Minimum 2 s so the loader looks intentional
+  useEffect(() => {
+    const t = setTimeout(() => { timerDone.current = true; tryFire(); }, 2000);
+    return () => clearTimeout(t);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Fire when assets finish loading (active → false)
+  useEffect(() => {
+    if (!active) { sceneDone.current = true; tryFire(); }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
+
+  return null;
+}
+
 interface SceneManagerProps {
   locations: WorldLocation[];
   onEnterLocation: (locationId: string) => void;
   onNearestLocationChange: (locationId: string | null) => void;
   selectedLocationId: string;
   sanctuaryActivated?: boolean;
+  onReady?: () => void;
 }
 
 export default function SceneManager({
@@ -32,6 +64,7 @@ export default function SceneManager({
   onNearestLocationChange,
   selectedLocationId,
   sanctuaryActivated = false,
+  onReady,
 }: SceneManagerProps) {
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") return;
@@ -48,9 +81,9 @@ export default function SceneManager({
   return (
     <Canvas
       camera={{ position: [0, 12, 10], fov: 60 }}
-      dpr={[1, 1.5]}
+      dpr={1}
       shadows={false}
-      gl={{ antialias: true, alpha: false }}
+      gl={{ antialias: false, alpha: false, powerPreference: "high-performance" }}
     >
       <Suspense fallback={null}>
         {/* Dynamic sky — dawn golden hour, sun near eastern horizon */}
@@ -80,6 +113,7 @@ export default function SceneManager({
         />
         <AudioSystem />
         <PostProcessing />
+        <ProgressTracker onReady={onReady} />
       </Suspense>
     </Canvas>
   );

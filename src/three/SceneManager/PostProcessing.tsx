@@ -1,6 +1,6 @@
 "use client";
 
-import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
+import { EffectComposer, Bloom, Vignette, FXAA } from "@react-three/postprocessing";
 import { BlendFunction, KernelSize } from "postprocessing";
 
 // Skipped on mobile — too expensive. Canvas is always client-only (ssr:false) so window is safe here.
@@ -10,10 +10,13 @@ export default function PostProcessing() {
   if (isMobile) return null;
 
   return (
-    <EffectComposer multisampling={4}>
+    // multisampling={0} — MSAA removed (4x = 4x more fragment work per frame).
+    // FXAA replaces it: single post-process pass, visually close, ~10x cheaper.
+    <EffectComposer multisampling={0}>
+      <FXAA />
       <Bloom
-        intensity={0.8}
-        kernelSize={KernelSize.LARGE}
+        intensity={0.7}
+        kernelSize={KernelSize.MEDIUM}
         luminanceThreshold={0.6}
         luminanceSmoothing={0.08}
         mipmapBlur

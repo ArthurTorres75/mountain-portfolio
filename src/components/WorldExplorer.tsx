@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import SceneViewport from "@/components/SceneViewport";
+import LoadingScreen from "@/components/LoadingScreen";
 import { useExperienceStore } from "@/store/useExperienceStore";
 import { SECTION, type Section, type WorldLocation } from "@/types";
 
@@ -75,6 +76,7 @@ export default function WorldExplorer() {
   const [selectedLocationId, setSelectedLocationId] = useState<WorldLocation["id"]>(SECTION.ABOUT);
   const [nearestLocationId, setNearestLocationId] = useState<string | null>(null);
   const [sanctuaryActivated, setSanctuaryActivated] = useState(false);
+  const [sceneReady, setSceneReady] = useState(false);
 
   const setActiveSection = useExperienceStore((s) => s.setActiveSection);
 
@@ -99,7 +101,9 @@ export default function WorldExplorer() {
         onNearestLocationChange={setNearestLocationId}
         selectedLocationId={selectedLocationId}
         sanctuaryActivated={sanctuaryActivated}
+        onReady={() => setSceneReady(true)}
       />
+      <LoadingScreen visible={!sceneReady} />
 
       {/* Top panel — header + portfolio link */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-4 p-4 sm:p-7 lg:p-10">

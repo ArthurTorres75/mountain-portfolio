@@ -15,6 +15,7 @@ interface SceneViewportProps {
   onNearestLocationChange: (locationId: string | null) => void;
   selectedLocationId: string;
   sanctuaryActivated?: boolean;
+  onReady?: () => void;
 }
 
 export default function SceneViewport({
@@ -23,6 +24,7 @@ export default function SceneViewport({
   onNearestLocationChange,
   selectedLocationId,
   sanctuaryActivated = false,
+  onReady,
 }: SceneViewportProps) {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -53,6 +55,7 @@ export default function SceneViewport({
           onNearestLocationChange={onNearestLocationChange}
           selectedLocationId={selectedLocationId}
           sanctuaryActivated={sanctuaryActivated}
+          onReady={onReady}
         />
       )}
     </div>
