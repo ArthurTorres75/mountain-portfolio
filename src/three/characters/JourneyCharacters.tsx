@@ -120,71 +120,68 @@ function Dog({
 }
 
 export default function JourneyCharacters() {
-  const arthurRef = useRef<Group>(null);
-  const laikaRef = useRef<Group>(null);
-  const laikaTailRef = useRef<Group>(null);
-  const kiraRef = useRef<Group>(null);
-  const kiraTailRef = useRef<Group>(null);
-  const jesusRef = useRef<Group>(null);
-  const wifeRef = useRef<Group>(null);
+  const arthurRef     = useRef<Group>(null);
+  const wifeRef       = useRef<Group>(null);
+  const laikaRef      = useRef<Group>(null);
+  const laikaTailRef  = useRef<Group>(null);
+  const kiraRef       = useRef<Group>(null);
+  const kiraTailRef   = useRef<Group>(null);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
 
-    // Dog Park movement: wife stays near Laika and Kira while all three move on terrain.
-    const dogParkX = -2.2;
-    const dogParkZ = -5.1;
+    // All four characters in the Dog Park enclosure (matches DogPark.tsx at X=-3, Z=-5.5)
+    const px = -3.0;
+    const pz = -5.5;
 
-    const laikaX = dogParkX + Math.cos(t * 0.9) * 1.7;
-    const laikaZ = dogParkZ + Math.sin(t * 1.1) * 1.4;
-    if (laikaRef.current) {
-      laikaRef.current.position.set(laikaX, getTerrainHeightAt(laikaX, laikaZ) + 0.05, laikaZ);
-      laikaRef.current.rotation.y = Math.atan2(-Math.sin(t * 0.9), -Math.cos(t * 1.1));
-    }
-
-    const kiraX = dogParkX + Math.cos(t * 1.0 + 1.6) * 1.5;
-    const kiraZ = dogParkZ + Math.sin(t * 0.95 + 1.2) * 1.25;
-    if (kiraRef.current) {
-      kiraRef.current.position.set(kiraX, getTerrainHeightAt(kiraX, kiraZ) + 0.05, kiraZ);
-      kiraRef.current.rotation.y = Math.atan2(-Math.sin(t * 1.0 + 1.6), -Math.cos(t * 0.95 + 1.2));
-    }
-
-    const wifeX = dogParkX + Math.cos(t * 0.6 + 0.4) * 0.95;
-    const wifeZ = dogParkZ + Math.sin(t * 0.6 + 0.4) * 0.8;
-    if (wifeRef.current) {
-      wifeRef.current.position.set(wifeX, getTerrainHeightAt(wifeX, wifeZ), wifeZ);
-      wifeRef.current.rotation.y = Math.atan2(dogParkX - wifeX, dogParkZ - wifeZ);
-    }
-
-    // Sanctuary NPC patrol, grounded to terrain.
-    const sanctuaryX = -9.6 + Math.cos(t * 0.45) * 0.7;
-    const sanctuaryZ = -12.8 + Math.sin(t * 0.45) * 0.55;
-    if (jesusRef.current) {
-      jesusRef.current.position.set(sanctuaryX, getTerrainHeightAt(sanctuaryX, sanctuaryZ), sanctuaryZ);
-      jesusRef.current.rotation.y = Math.atan2(-Math.sin(t * 0.45), -Math.cos(t * 0.45));
-    }
-
-    // Base town NPC walk loop, grounded to terrain.
-    const arthurX = 0.2 + Math.cos(t * 0.42) * 0.7;
-    const arthurZ = 2.2 + Math.sin(t * 0.42) * 0.55;
+    // Arthur — slow outer stroll, offset half-circle from wife so they rarely overlap
+    const ax = px + Math.cos(t * 0.38 + Math.PI) * 1.5;
+    const az = pz + Math.sin(t * 0.38 + Math.PI) * 1.2;
     if (arthurRef.current) {
-      arthurRef.current.position.set(arthurX, getTerrainHeightAt(arthurX, arthurZ), arthurZ);
-      arthurRef.current.rotation.y = Math.atan2(-Math.sin(t * 0.42), -Math.cos(t * 0.42));
+      arthurRef.current.position.set(ax, getTerrainHeightAt(ax, az), az);
+      arthurRef.current.rotation.y = Math.atan2(
+        -Math.sin(t * 0.38 + Math.PI) * 1.2,
+        -Math.cos(t * 0.38 + Math.PI) * 1.5,
+      );
     }
 
-    if (laikaTailRef.current) {
-      laikaTailRef.current.rotation.z = 0.45 + Math.sin(t * 7) * 0.55;
+    // Wife — slightly faster inner loop
+    const wx = px + Math.cos(t * 0.55 + 0.4) * 1.1;
+    const wz = pz + Math.sin(t * 0.55 + 0.4) * 0.9;
+    if (wifeRef.current) {
+      wifeRef.current.position.set(wx, getTerrainHeightAt(wx, wz), wz);
+      wifeRef.current.rotation.y = Math.atan2(
+        -Math.sin(t * 0.55 + 0.4) * 0.9,
+        -Math.cos(t * 0.55 + 0.4) * 1.1,
+      );
     }
-    if (kiraTailRef.current) {
-      kiraTailRef.current.rotation.z = 0.45 + Math.sin(t * 7 + 1.1) * 0.5;
+
+    // Laika — energetic outer circuit with running bounce
+    const lx = px + Math.cos(t * 0.9) * 1.8;
+    const lz = pz + Math.sin(t * 1.1) * 1.5;
+    if (laikaRef.current) {
+      laikaRef.current.position.set(lx, getTerrainHeightAt(lx, lz) + 0.05 + Math.abs(Math.sin(t * 5.5)) * 0.05, lz);
+      laikaRef.current.rotation.y = Math.atan2(-Math.sin(t * 0.9) * 1.5, -Math.cos(t * 1.1) * 1.8);
     }
+
+    // Kira — slightly different orbit, offset phase
+    const kx = px + Math.cos(t * 1.05 + 1.6) * 1.6;
+    const kz = pz + Math.sin(t * 0.95 + 1.2) * 1.3;
+    if (kiraRef.current) {
+      kiraRef.current.position.set(kx, getTerrainHeightAt(kx, kz) + 0.05 + Math.abs(Math.sin(t * 5.5 + 1.1)) * 0.05, kz);
+      kiraRef.current.rotation.y = Math.atan2(-Math.sin(t * 1.05 + 1.6) * 1.3, -Math.cos(t * 0.95 + 1.2) * 1.6);
+    }
+
+    // Tail wag
+    if (laikaTailRef.current) laikaTailRef.current.rotation.z = 0.45 + Math.sin(t * 7) * 0.55;
+    if (kiraTailRef.current)  kiraTailRef.current.rotation.z  = 0.45 + Math.sin(t * 7 + 1.1) * 0.5;
   });
 
   return (
     <group>
-      {/* Arthur — main character, blue shirt */}
+      {/* Arthur — dark blue jeans, light blue shirt */}
       <Character
-        position={[0, -0.16, 2.2]}
+        position={[-4.5, -0.16, -5.5]}
         bodyColor="#3a5080"
         shirtColor="#4a72b8"
         skinColor="#d4a87a"
@@ -192,42 +189,32 @@ export default function JourneyCharacters() {
         groupRef={arthurRef}
       />
 
+      {/* Wife — purple/pink outfit */}
+      <Character
+        position={[-3.0, -0.1, -5.5]}
+        bodyColor="#6f4c8b"
+        shirtColor="#c06c84"
+        skinColor="#d7ab86"
+        scale={0.7}
+        groupRef={wifeRef}
+      />
+
       {/* Laika — golden dog */}
       <Dog
-        position={[1.1, -0.36, 2.5]}
+        position={[-2.2, -0.36, -5.5]}
         color="#c8883a"
         groupRef={laikaRef}
         tailRef={laikaTailRef}
         scale={0.85}
       />
 
-      {/* Kira — darker dog */}
+      {/* Kira — dark dog */}
       <Dog
-        position={[-1.0, -0.38, 2.55]}
+        position={[-3.8, -0.38, -5.5]}
         color="#161616"
         groupRef={kiraRef}
         tailRef={kiraTailRef}
         scale={0.78}
-      />
-
-      {/* Jesus NPC at the hidden sanctuary */}
-      <Character
-        position={[-9.6, 0.18, -12.8]}
-        bodyColor="#3a5080"
-        shirtColor="#4a72b8"
-        skinColor="#d4a87a"
-        scale={0.68}
-        groupRef={jesusRef}
-      />
-
-      {/* Wife NPC runs/walks with the dogs at Dog Park */}
-      <Character
-        position={[-2.0, -0.1, -5.1]}
-        bodyColor="#6f4c8b"
-        shirtColor="#c06c84"
-        skinColor="#d7ab86"
-        scale={0.7}
-        groupRef={wifeRef}
       />
     </group>
   );
