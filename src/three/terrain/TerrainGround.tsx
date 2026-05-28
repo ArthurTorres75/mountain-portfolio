@@ -21,12 +21,23 @@ export default function TerrainGround() {
       </mesh>
 
       {/* Secondary trails — filtered from river corridor */}
-      {safePathSegments.map(([x, y, z, width, length, rotationY], i) => (
-        <mesh key={`side-path-${i}`} rotation={[-Math.PI / 2, rotationY, 0]} position={[x, y, z]}>
-          <planeGeometry args={[width, length, 1, 1]} />
-          <meshToonMaterial color="#c4a26a" gradientMap={gradientMap} />
-        </mesh>
-      ))}
+      {safePathSegments.map(([x, y, z, width, length, rotationY], i) => {
+        // E-W roads (rotationY ≈ PI/2) must NOT use rotationY in the Euler tuple —
+        // rotation={[-PI/2, PI/2, 0]} collapses all vertices to X=0, producing a
+        // vertical wall. Instead keep rotation flat and swap geometry dimensions
+        // so the plane stretches along X (length) with width along Z.
+        const isEW = Math.abs(rotationY - Math.PI / 2) < 0.01;
+        return (
+          <mesh
+            key={`side-path-${i}`}
+            rotation={[-Math.PI / 2, isEW ? 0 : rotationY, 0]}
+            position={[x, y, z]}
+          >
+            <planeGeometry args={isEW ? [length, width, 1, 1] : [width, length, 1, 1]} />
+            <meshToonMaterial color="#c4a26a" gradientMap={gradientMap} />
+          </mesh>
+        );
+      })}
 
       {/* Lakes — animated-looking with slight transparency */}
       {safeLakePositions.map(([x, y, z, width, length, rotationY], i) => (

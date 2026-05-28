@@ -25,6 +25,7 @@ export interface WorldLocation {
   title: string;
   description: string;
   secondary?: string;
+  quotes?: string[];
   worldPosition: [number, number, number];
 }
 

@@ -135,3 +135,89 @@ export function rampGain(gainNode: GainNode, target: number, durationSecs = 0.8)
     gainNode.context.currentTime + durationSecs,
   );
 }
+
+// Dog bark: filtered noise with a separate envelope gain so the proximity
+// masterGain (gainNode) can be set independently without fighting the pulses.
+// Graph: noise → bandpass → envelopeGain (bark pulses) → gainNode (proximity) → out
+export function createBarkSound(ctx: AudioContext, volume = 0): SoundHandle {
+  const source = createWhiteNoise(ctx, 2);
+
+  const bp = ctx.createBiquadFilter();
+  bp.type = "bandpass";
+  bp.frequency.value = 900;
+  bp.Q.value = 2.0;
+
+  const envelopeGain = ctx.createGain();
+  envelopeGain.gain.value = 0;
+
+  const gainNode = ctx.createGain();
+  gainNode.gain.value = volume;
+
+  source.connect(bp);
+  bp.connect(envelopeGain);
+  envelopeGain.connect(gainNode);
+  gainNode.connect(ctx.destination);
+  source.start();
+
+  let stopped = false;
+  function scheduleBark() {
+    if (stopped) return;
+    const now = ctx.currentTime;
+    envelopeGain.gain.cancelScheduledValues(now);
+    envelopeGain.gain.setValueAtTime(0, now);
+    envelopeGain.gain.linearRampToValueAtTime(1, now + 0.02);
+    envelopeGain.gain.setValueAtTime(1, now + 0.18);
+    envelopeGain.gain.linearRampToValueAtTime(0, now + 0.30);
+    if (Math.random() > 0.5) {
+      envelopeGain.gain.setValueAtTime(0, now + 0.45);
+      envelopeGain.gain.linearRampToValueAtTime(0.7, now + 0.47);
+      envelopeGain.gain.setValueAtTime(0.7, now + 0.62);
+      envelopeGain.gain.linearRampToValueAtTime(0, now + 0.74);
+    }
+    setTimeout(scheduleBark, 3500 + Math.random() * 5500);
+  }
+  setTimeout(scheduleBark, 1000 + Math.random() * 2000);
+
+  return {
+    gainNode,
+    stop: () => { stopped = true; try { source.stop(); } catch { /* ok */ } },
+  };
+}
+
+// Bird chirps: scheduled oscillator sweeps, occasional (8–20 s intervals).
+// Graph: per-chirp osc → per-chirp env → gainNode (mute master) → out
+export function createBirdChirpSound(ctx: AudioContext, volume = 0.15): SoundHandle {
+  const gainNode = ctx.createGain();
+  gainNode.gain.value = volume;
+  gainNode.connect(ctx.destination);
+
+  let stopped = false;
+  function scheduleChirp() {
+    if (stopped) return;
+    const now = ctx.currentTime;
+    const count = 1 + Math.floor(Math.random() * 3);
+    for (let n = 0; n < count; n++) {
+      const t = now + n * (0.12 + Math.random() * 0.08);
+      const osc = ctx.createOscillator();
+      const env = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(1800 + Math.random() * 1200, t);
+      osc.frequency.linearRampToValueAtTime(2400 + Math.random() * 800, t + 0.07);
+      env.gain.setValueAtTime(0, t);
+      env.gain.linearRampToValueAtTime(1, t + 0.015);
+      env.gain.setValueAtTime(1, t + 0.07);
+      env.gain.linearRampToValueAtTime(0, t + 0.13);
+      osc.connect(env);
+      env.connect(gainNode);
+      osc.start(t);
+      osc.stop(t + 0.16);
+    }
+    setTimeout(scheduleChirp, 8000 + Math.random() * 12000);
+  }
+  setTimeout(scheduleChirp, 2000 + Math.random() * 4000);
+
+  return {
+    gainNode,
+    stop: () => { stopped = true; },
+  };
+}

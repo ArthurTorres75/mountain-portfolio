@@ -9,10 +9,10 @@ import {
   Euler,
 } from "three";
 import { getToonGradientMap } from "@/lib/toonGradient";
-import { TREE_GROUND_OFFSET, safeTreePositions, shrubPositions } from "./terrainData";
+import { TREE_GROUND_OFFSET, safeTreePositions, safeShrubPositions } from "./terrainData";
 
 // Deterministic pseudo-random variation per index — stable across renders
-const treeScale = (i: number) => 0.85 + ((Math.sin(i * 7.13 + 1.23) + 1) / 2) * 0.45;
+const treeScale = (i: number) => (1.8 + ((Math.sin(i * 7.13 + 1.23) + 1) / 2) * 0.9) * 0.7;
 const treeRotY  = (i: number) => (Math.sin(i * 13.71) + 1) * Math.PI;
 
 const COUNT = safeTreePositions.length;
@@ -64,30 +64,30 @@ export default function TerrainFlora() {
     <group>
       {/* Trunk — 1 draw call for all trees */}
       <instancedMesh ref={trunkRef} args={[undefined, undefined, COUNT]} frustumCulled={false}>
-        <cylinderGeometry args={[0.08, 0.14, 0.9, 5]} />
+        <cylinderGeometry args={[0.12, 0.20, 1.1, 6]} />
         <meshToonMaterial color="#7a5c3a" gradientMap={gradientMap} />
       </instancedMesh>
 
       {/* Lower canopy */}
       <instancedMesh ref={lowerRef} args={[undefined, undefined, COUNT]} frustumCulled={false}>
-        <coneGeometry args={[0.65, 1.5, 5]} />
+        <coneGeometry args={[1.0, 2.0, 6]} />
         <meshToonMaterial color="#2e6e38" gradientMap={gradientMap} />
       </instancedMesh>
 
       {/* Mid canopy */}
       <instancedMesh ref={midRef} args={[undefined, undefined, COUNT]} frustumCulled={false}>
-        <coneGeometry args={[0.44, 1.1, 5]} />
+        <coneGeometry args={[0.68, 1.5, 6]} />
         <meshToonMaterial color="#3a8a48" gradientMap={gradientMap} />
       </instancedMesh>
 
       {/* Top canopy */}
       <instancedMesh ref={topRef} args={[undefined, undefined, COUNT]} frustumCulled={false}>
-        <coneGeometry args={[0.26, 0.75, 5]} />
+        <coneGeometry args={[0.40, 1.0, 5]} />
         <meshToonMaterial color="#4aa05a" gradientMap={gradientMap} />
       </instancedMesh>
 
-      {/* Shrubs — only 6 instances, regular meshes are fine */}
-      {shrubPositions.map(([x, y, z, scale], i) => (
+      {/* Shrubs — filtered like trees */}
+      {safeShrubPositions.map(([x, y, z, scale], i) => (
         <group key={`shrub-${i}`} position={[x, y, z]} scale={scale} rotation={[0, treeRotY(i + 100), 0]}>
           <mesh>
             <dodecahedronGeometry args={[0.7, 0]} />

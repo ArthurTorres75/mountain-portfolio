@@ -17,8 +17,8 @@ export default function TerrainStructures() {
       ))}
 
       {/* Wooden cabins */}
-      {cabinPositions.map(([x, y, z, scale], i) => (
-        <group key={`cabin-${i}`} position={[x, y, z]} scale={scale}>
+      {cabinPositions.map(([x, y, z, scale, rotationY], i) => (
+        <group key={`cabin-${i}`} position={[x, y, z]} scale={scale} rotation={[0, rotationY, 0]}>
           {/* Stone foundation */}
           <mesh position={[0, 0.06, 0]}>
             <boxGeometry args={[1.72, 0.12, 1.42]} />
@@ -78,8 +78,8 @@ export default function TerrainStructures() {
         </group>
       ))}
 
-      {/* Sanctuary platform */}
-      <group position={[-9.6, -0.72, -12.8]}>
+      {/* Sanctuary platform — hidden between mountains */}
+      <group position={[-14.5, -0.72, -15.5]}>
         <mesh>
           <cylinderGeometry args={[1.25, 1.45, 0.32, 10]} />
           <meshToonMaterial color="#9b8f7f" gradientMap={gradientMap} />

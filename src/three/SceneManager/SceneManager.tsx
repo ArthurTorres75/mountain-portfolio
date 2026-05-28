@@ -23,6 +23,7 @@ interface SceneManagerProps {
   onEnterLocation: (locationId: string) => void;
   onNearestLocationChange: (locationId: string | null) => void;
   selectedLocationId: string;
+  sanctuaryActivated?: boolean;
 }
 
 export default function SceneManager({
@@ -30,6 +31,7 @@ export default function SceneManager({
   onEnterLocation,
   onNearestLocationChange,
   selectedLocationId,
+  sanctuaryActivated = false,
 }: SceneManagerProps) {
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") return;
@@ -65,7 +67,7 @@ export default function SceneManager({
         <Environment preset="sunset" />
         <CloudLayer />
         <BirdFlock />
-        <GuidanceEffects />
+        <GuidanceEffects sanctuaryActivated={sanctuaryActivated} />
         <MountainTerrain />
         <AnimatedWater />
         <JourneyCharacters />

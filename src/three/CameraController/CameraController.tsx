@@ -44,9 +44,11 @@ export default function CameraController({
     down: false,
     sprint: false,
   });
-  const nearestLocationRef = useRef<string | null>(null);
-  const yawRef = useRef(0);
-  const pitchRef = useRef(-0.08);
+  const nearestLocationRef  = useRef<string | null>(null);
+  const yawRef              = useRef(0);
+  const pitchRef            = useRef(-0.08);
+  // Prevents re-acquiring pointer lock immediately after ESC (browser SecurityError)
+  const lockCooldownRef     = useRef(false);
 
   const forward = useMemo(() => new Vector3(), []);
   const right = useMemo(() => new Vector3(), []);
@@ -95,8 +97,16 @@ export default function CameraController({
       pitchRef.current = Math.min(MAX_PITCH, Math.max(MIN_PITCH, pitchRef.current));
     };
 
-    const onCanvasClick = () => {
+    const onPointerLockChange = () => {
       if (document.pointerLockElement !== gl.domElement) {
+        // Lock released (e.g. ESC) — block re-acquisition for 1.2 s to avoid SecurityError
+        lockCooldownRef.current = true;
+        setTimeout(() => { lockCooldownRef.current = false; }, 1200);
+      }
+    };
+
+    const onCanvasClick = () => {
+      if (document.pointerLockElement !== gl.domElement && !lockCooldownRef.current) {
         gl.domElement.requestPointerLock();
       }
     };
@@ -127,12 +137,14 @@ export default function CameraController({
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
+    document.addEventListener("pointerlockchange", onPointerLockChange);
 
     return () => {
       gl.domElement.removeEventListener("click", onCanvasClick);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
+      document.removeEventListener("pointerlockchange", onPointerLockChange);
     };
   }, [enabled, gl, onEnterLocation]);
 
