@@ -46,7 +46,7 @@ const WORLD_LOCATIONS: WorldLocation[] = [
     title: "Human Side",
     description:
       "My wife walks every road with me — my life partner, my support, and my greatest source of growth. Laika and Kira keep every sprint honest: joy, discipline and consistency.",
-    worldPosition: [-2.2, 0.2, -5.1],
+    worldPosition: [-16.0, 0.2, 1.0],
   },
   {
     id: SECTION.SANCTUARY,
@@ -60,7 +60,7 @@ const WORLD_LOCATIONS: WorldLocation[] = [
       "\"Pray to your Father who sees in secret, and your Father who sees in secret will reward you openly.\" — Matthew 6:6",
       "All glory be to God.",
     ],
-    worldPosition: [-14.5, 0.28, -15.5],
+    worldPosition: [-18.0, 0.28, -24.0],
   },
   {
     id: SECTION.CONTACT,
@@ -68,7 +68,7 @@ const WORLD_LOCATIONS: WorldLocation[] = [
     title: "Let Us Build Something Lasting",
     description: "I build with discipline, gratitude, and purpose.",
     secondary: "Guided since before the beginning.",
-    worldPosition: [8.1, 0.24, -13.8],
+    worldPosition: [11.0, 0.5, -13.5],
   },
 ];
 

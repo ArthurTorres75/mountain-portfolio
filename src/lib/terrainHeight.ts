@@ -11,9 +11,9 @@ const MOUNDS: [number, number, number, number][] = [
   [-4.5, 1.5, 1.6, 0.65],
 ];
 
-const PLATFORMS: [number, number, number][] = [
-  [-9.6, -12.8, -0.36],
-  [8.1, -13.8, -0.32],
+// [centerX, centerZ, topY, radius]
+const PLATFORMS: [number, number, number, number][] = [
+  [-9.6, -12.8, -0.36, 1.15],
 ];
 
 export function getTerrainHeightAt(x: number, z: number): number {
@@ -32,9 +32,9 @@ export function getTerrainHeightAt(x: number, z: number): number {
     }
   }
 
-  for (const [cx, cz, topY] of PLATFORMS) {
+  for (const [cx, cz, topY, radius] of PLATFORMS) {
     const distance = Math.hypot(x - cx, z - cz);
-    if (distance < 1.15 && topY > height) {
+    if (distance < radius && topY > height) {
       height = topY;
     }
   }

@@ -9,17 +9,23 @@ import TerrainStructures from "./TerrainStructures";
 import TerrainBridges from "./TerrainBridges";
 import CaveOfProjects from "./CaveOfProjects";
 import DogPark from "./DogPark";
+import FarLakeViewpoint from "./FarLakeViewpoint";
+import EastLakeViewpoint from "./EastLakeViewpoint";
+import TownExtras from "./TownExtras";
 
-export default function MountainTerrain() {
+export default function MountainTerrain({ isDay = true }: { isDay?: boolean }) {
   return (
     <group>
       <TerrainGround />
       <TerrainMountains />
       <TerrainFlora />
-      <TerrainStructures />
+      <TerrainStructures isDay={isDay} />
+      <TownExtras isDay={isDay} />
       <TerrainBridges />
+      <FarLakeViewpoint />
+      <EastLakeViewpoint isDay={isDay} />
       <CaveOfProjects />
-      <DogPark />
+      <DogPark isDay={isDay} />
     </group>
   );
 }

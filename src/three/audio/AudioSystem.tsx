@@ -13,8 +13,8 @@ import { RIVER_CORRIDOR } from "../terrain/terrainData";
 const WATER_Y = -0.77;
 
 // Dog park center — bark fades from full volume at ≤3 units to silent at ≥9 units
-const DOG_PARK_X = -3.0;
-const DOG_PARK_Z = -5.5;
+const DOG_PARK_X = -16.0;
+const DOG_PARK_Z =  1.0;
 function barkGainAt(camX: number, camZ: number): number {
   const dist = Math.hypot(camX - DOG_PARK_X, camZ - DOG_PARK_Z);
   return Math.max(0, Math.min(1, (9 - dist) / 6)) * 0.28;
@@ -41,7 +41,7 @@ function detectFireZone(camZ: number) {
   return FIRE_ZONES.find((z) => camZ <= z.maxZ) ?? FIRE_ZONES[FIRE_ZONES.length - 1];
 }
 
-export default function AudioSystem() {
+export default function AudioSystem({ isDay = true }: { isDay?: boolean }) {
   const { gl, camera } = useThree();
   const ctxRef      = useRef<AudioContext | null>(null);
   const riverRef    = useRef<ReturnType<typeof createRiverSound>      | null>(null);
@@ -98,16 +98,16 @@ export default function AudioSystem() {
       riverRef.current.gainNode.gain.setTargetAtTime(target, ctx.currentTime, 0.15);
     }
 
-    // Bark: proximity to dog park (smooth ramp every frame)
+    // Bark: proximity to dog park — silent at night (no people/dogs outside)
     if (barkRef.current) {
-      const target = mute ? 0 : barkGainAt(x, z);
-      barkRef.current.gainNode.gain.setTargetAtTime(target, ctx.currentTime, 0.4);
+      const target = (mute || !isDay) ? 0 : barkGainAt(x, z);
+      barkRef.current.gainNode.gain.setTargetAtTime(target, ctx.currentTime, 2.0);
     }
 
-    // Birds: global ambient, starts on first audio unlock, occasional chirps scheduled internally
+    // Birds: day-only ambient chirps — fade out slowly at night
     if (birdRef.current) {
-      const target = mute ? 0 : 0.15;
-      birdRef.current.gainNode.gain.setTargetAtTime(target, ctx.currentTime, 1.0);
+      const target = (mute || !isDay) ? 0 : 0.15;
+      birdRef.current.gainNode.gain.setTargetAtTime(target, ctx.currentTime, 3.0);
     }
 
     // Fire: zone boundary only

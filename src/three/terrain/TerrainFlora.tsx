@@ -9,7 +9,7 @@ import {
   Euler,
 } from "three";
 import { getToonGradientMap } from "@/lib/toonGradient";
-import { TREE_GROUND_OFFSET, safeTreePositions, safeShrubPositions } from "./terrainData";
+import { TREE_GROUND_OFFSET, safeTreePositions, safeShrubPositions, flowerPositions } from "./terrainData";
 
 // Deterministic pseudo-random variation per index — stable across renders
 const treeScale = (i: number) => (1.8 + ((Math.sin(i * 7.13 + 1.23) + 1) / 2) * 0.9) * 0.7;
@@ -96,6 +96,27 @@ export default function TerrainFlora() {
           <mesh position={[0.5, 0.05, -0.3]}>
             <dodecahedronGeometry args={[0.42, 0]} />
             <meshToonMaterial color="#5a9060" gradientMap={gradientMap} />
+          </mesh>
+        </group>
+      ))}
+
+      {/* Flowers — cave (mystic) and sanctuary (golden) */}
+      {flowerPositions.map(([x, y, z, color], i) => (
+        <group key={`flower-${i}`} position={[x, y, z]}>
+          {/* Stem */}
+          <mesh position={[0, 0.14, 0]}>
+            <cylinderGeometry args={[0.025, 0.03, 0.28, 5]} />
+            <meshToonMaterial color="#4a8040" gradientMap={gradientMap} />
+          </mesh>
+          {/* Petals */}
+          <mesh position={[0, 0.30, 0]}>
+            <sphereGeometry args={[0.10, 6, 4]} />
+            <meshToonMaterial color={color} gradientMap={gradientMap} />
+          </mesh>
+          {/* Center dot */}
+          <mesh position={[0, 0.34, 0]}>
+            <sphereGeometry args={[0.045, 5, 4]} />
+            <meshToonMaterial color="#f5e060" gradientMap={gradientMap} />
           </mesh>
         </group>
       ))}
