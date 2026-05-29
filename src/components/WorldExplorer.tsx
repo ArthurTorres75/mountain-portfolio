@@ -107,9 +107,9 @@ export default function WorldExplorer() {
 
       {/* Mobile layout: vertical stack with normal flow.
           Desktop (lg+): wrapper fills the viewport so each lg:absolute child anchors to main. */}
-      <div className="relative z-10 flex flex-col gap-4 p-4 sm:gap-5 sm:p-6 lg:absolute lg:inset-0 lg:gap-0 lg:p-0">
+      <div className="pointer-events-none relative z-10 flex flex-col gap-4 p-4 sm:gap-5 sm:p-6 lg:absolute lg:inset-0 lg:gap-0 lg:p-0">
         {/* Header + portfolio link */}
-        <div className="flex flex-col items-stretch gap-3 lg:absolute lg:inset-x-0 lg:top-0 lg:flex-row lg:items-start lg:justify-between lg:gap-4 lg:p-10">
+        <div className="pointer-events-auto flex flex-col items-stretch gap-3 lg:absolute lg:inset-x-0 lg:top-0 lg:flex-row lg:items-start lg:justify-between lg:gap-4 lg:p-10">
           <header className="rounded-3xl border border-white/25 bg-white/10 p-4 backdrop-blur-md sm:p-6 lg:max-w-2xl">
             <p className="text-xs uppercase tracking-[0.3em] text-amber-200/90">Mountain Portfolio World</p>
             <h1 className="mt-3 text-balance text-2xl font-semibold text-white sm:text-3xl lg:text-4xl">
@@ -138,12 +138,12 @@ export default function WorldExplorer() {
         </div>
 
         {/* Mobile-only notice — hidden on desktop */}
-        <div className="rounded-2xl border border-amber-300/30 bg-amber-300/10 p-3 text-center text-xs leading-relaxed text-amber-100 backdrop-blur-md sm:text-sm lg:hidden">
+        <div className="pointer-events-auto rounded-2xl border border-amber-300/30 bg-amber-300/10 p-3 text-center text-xs leading-relaxed text-amber-100 backdrop-blur-md sm:text-sm lg:hidden">
           For the full 3D mountain experience, please open this site on desktop.
         </div>
 
         {/* Location detail */}
-        <article className="max-h-none overflow-visible rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur-md sm:p-5 lg:absolute lg:bottom-16 lg:right-10 lg:max-h-56 lg:w-[340px] lg:overflow-y-auto">
+        <article className="pointer-events-auto max-h-none overflow-visible rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur-md sm:p-5 lg:absolute lg:bottom-16 lg:right-10 lg:max-h-56 lg:w-[340px] lg:overflow-y-auto">
           <p className="text-xs uppercase tracking-[0.22em] text-amber-200/90">{selectedLocation.label}</p>
           <h2 className="mt-2 text-lg font-semibold text-white sm:text-xl">{selectedLocation.title}</h2>
           <p className="mt-2 text-sm leading-relaxed text-zinc-100/95">
@@ -162,7 +162,7 @@ export default function WorldExplorer() {
         </article>
 
         {/* Nav buttons */}
-        <aside className="flex flex-wrap content-start items-center gap-2 rounded-2xl border border-white/20 bg-white/8 p-3 backdrop-blur-md lg:absolute lg:bottom-16 lg:left-10 lg:max-w-xl">
+        <aside className="pointer-events-auto flex flex-wrap content-start items-center gap-2 rounded-2xl border border-white/20 bg-white/8 p-3 backdrop-blur-md lg:absolute lg:bottom-16 lg:left-10 lg:max-w-xl">
           {WORLD_LOCATIONS.map((location) => (
             <button
               key={location.id}
