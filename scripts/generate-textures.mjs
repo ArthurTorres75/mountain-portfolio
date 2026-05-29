@@ -180,7 +180,6 @@ function generateHorizon() {
     const t = (y - 80) / 100;
     const r = Math.round(26 + (232 - 26) * Math.sin(t * Math.PI));
     const g = Math.round(26 + (147 - 26) * Math.sin(t * Math.PI));
-    const b = Math.round(46 + (90 - 46) * Math.sin(t * Math.PI) * 0.3);
     for (let x = 0; x < 1024; x++) {
       const idx = (1024 * y + x) * 4;
       png.data[idx] = Math.min(255, png.data[idx] + r * 0.4);

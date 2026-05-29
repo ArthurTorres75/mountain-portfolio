@@ -39,6 +39,7 @@ export default function LoadingScreen({ visible }: LoadingScreenProps) {
   // Scene ready → snap to 100, then unmount after fade completes
   useEffect(() => {
     if (!visible) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setProgress(100);
       const t = setTimeout(() => setMounted(false), 1100);
       return () => clearTimeout(t);

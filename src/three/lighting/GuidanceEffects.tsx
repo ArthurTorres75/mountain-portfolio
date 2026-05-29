@@ -24,6 +24,7 @@ export default function GuidanceEffects({ sanctuaryActivated }: GuidanceEffectsP
   const progressRef   = useRef(0);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (sanctuaryActivated) setShowSparkles(true);
   }, [sanctuaryActivated]);
 
