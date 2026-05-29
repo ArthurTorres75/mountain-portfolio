@@ -9,7 +9,7 @@ export default function CloudLayer() {
   return (
     <group>
       {/* Dense mid-altitude band — Y ≈ 8-11 */}
-      <Clouds material={MeshBasicMaterial}>
+      <Clouds material={MeshBasicMaterial} texture="/textures/cloud.png">
         <Cloud position={[-6, 9, -10]}  seed={1} segments={22} bounds={[14, 2, 7]}  volume={7}   color="#d8e8f4" opacity={0.55} fade={30} />
         <Cloud position={[8, 10, -18]}  seed={2} segments={18} bounds={[11, 2, 5]}  volume={6}   color="#cfe0ee" opacity={0.50} fade={28} />
         <Cloud position={[0, 9.5, -28]} seed={3} segments={20} bounds={[16, 2, 6]}  volume={8}   color="#d4e4f0" opacity={0.58} fade={32} />

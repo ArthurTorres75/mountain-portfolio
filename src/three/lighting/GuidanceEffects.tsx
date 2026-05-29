@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Sparkles, Stars } from "@react-three/drei";
 import { MeshBasicMaterial, Mesh, PointLight } from "three";
@@ -15,17 +15,12 @@ interface GuidanceEffectsProps {
 }
 
 export default function GuidanceEffects({ sanctuaryActivated }: GuidanceEffectsProps) {
-  // Mount sparkles once activated — never unmount (divine permanence)
-  const [showSparkles, setShowSparkles] = useState(false);
-
-  const ray1Ref       = useRef<Mesh>(null);
-  const ray2Ref       = useRef<Mesh>(null);
+  // sanctuaryActivated is a one-way toggle — once true it never goes false,
+  // so we can render sparkles directly from the prop (no derived state needed).
+  const ray1Ref        = useRef<Mesh>(null);
+  const ray2Ref        = useRef<Mesh>(null);
   const revealLightRef = useRef<PointLight>(null);
-  const progressRef   = useRef(0);
-
-  useEffect(() => {
-    if (sanctuaryActivated) setShowSparkles(true);
-  }, [sanctuaryActivated]);
+  const progressRef    = useRef(0);
 
   useFrame((state, delta) => {
     if (sanctuaryActivated && progressRef.current < 1) {
@@ -54,7 +49,7 @@ export default function GuidanceEffects({ sanctuaryActivated }: GuidanceEffectsP
       <Stars radius={90} depth={25} count={400} factor={3} saturation={0.15} speed={0.3} />
 
       {/* Sanctuary golden haze — revealed when player enters */}
-      {showSparkles && (
+      {sanctuaryActivated && (
         <Sparkles
           count={60}
           scale={[10, 5, 10]}

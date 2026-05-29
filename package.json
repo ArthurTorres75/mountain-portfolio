@@ -25,6 +25,19 @@
     "three": "^0.184.0",
     "zustand": "^5.0.13"
   },
+  "browserslist": {
+    "production": [
+      "chrome >= 96",
+      "firefox >= 95",
+      "safari >= 15",
+      "edge >= 96"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
