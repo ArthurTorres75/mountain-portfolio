@@ -65,7 +65,7 @@ export default function LoadingScreen({ visible }: LoadingScreenProps) {
       </div>
 
       {/* Mountain silhouettes */}
-      <svg viewBox="0 0 480 200" className="relative w-72 sm:w-96" aria-hidden="true">
+      <svg viewBox="0 0 480 200" className="relative w-[min(18rem,85vw)] sm:w-96" aria-hidden="true">
         <polygon points="10,200 130,55 250,200"  fill="#162840" />
         <polygon points="220,200 330,25 440,200" fill="#1a3050" />
         <polygon points="110,200 230,45 350,200" fill="#25476a" />
@@ -82,16 +82,16 @@ export default function LoadingScreen({ visible }: LoadingScreenProps) {
         <line x1="339" y1="23" x2="343" y2="23" stroke="#F5C842" strokeWidth="1" opacity="0.6" />
       </svg>
 
-      {/* Title */}
-      <h1 className="relative mt-6 text-lg font-semibold tracking-[0.4em] text-white/85 uppercase sm:text-xl">
+      {/* Title — pl-[0.4em] balances trailing letter-spacing so the block looks centered */}
+      <h1 className="relative mt-6 pl-[0.4em] text-center text-lg font-semibold tracking-[0.4em] text-white/85 uppercase sm:text-xl">
         Mountain Portfolio
       </h1>
-      <p className="relative mt-2 text-xs tracking-[0.3em] text-amber-200/45 uppercase">
+      <p className="relative mt-2 pl-[0.3em] text-center text-xs tracking-[0.3em] text-amber-200/45 uppercase">
         Preparing your journey
       </p>
 
       {/* Progress bar */}
-      <div className="relative mt-8 w-48 sm:w-60">
+      <div className="relative mt-8 w-[min(12rem,70vw)] sm:w-60">
         <div className="h-px w-full bg-white/10" />
         <div
           className="absolute inset-y-0 left-0 h-px bg-gradient-to-r from-amber-400/80 to-amber-200/60 transition-all duration-500"

@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import AtmosphereParallax from "@/components/AtmosphereParallax";
+import MobileScene from "@/components/MobileScene";
 import type { WorldLocation } from "@/types";
 
 const SceneManager = dynamic(() => import("@/three/SceneManager"), {
@@ -43,20 +44,31 @@ export default function SceneViewport({
     };
   }, []);
 
+  // On mobile we skip the 3D scene → fire onReady ourselves after a brief delay
+  // so the loader can finish instead of getting stuck at 92%.
+  useEffect(() => {
+    if (!isMobile || !onReady) return;
+    const t = setTimeout(() => onReady(), 1200);
+    return () => clearTimeout(t);
+  }, [isMobile, onReady]);
+
   return (
     <div className="fixed inset-0 z-0">
-      <AtmosphereParallax />
       {isMobile ? (
-        <div className="h-full w-full bg-[radial-gradient(circle_at_20%_25%,rgba(245,200,66,0.25),transparent_45%),radial-gradient(circle_at_80%_15%,rgba(255,196,80,0.18),transparent_40%),linear-gradient(180deg,#1a2e4a_0%,#1e3a5a_45%,#2a4a6a_100%)]" />
+        // Pure-CSS animated scene — no Three.js, no GSAP, no Canvas
+        <MobileScene />
       ) : (
-        <SceneManager
-          locations={locations}
-          onEnterLocation={onEnterLocation}
-          onNearestLocationChange={onNearestLocationChange}
-          selectedLocationId={selectedLocationId}
-          sanctuaryActivated={sanctuaryActivated}
-          onReady={onReady}
-        />
+        <>
+          <AtmosphereParallax />
+          <SceneManager
+            locations={locations}
+            onEnterLocation={onEnterLocation}
+            onNearestLocationChange={onNearestLocationChange}
+            selectedLocationId={selectedLocationId}
+            sanctuaryActivated={sanctuaryActivated}
+            onReady={onReady}
+          />
+        </>
       )}
     </div>
   );

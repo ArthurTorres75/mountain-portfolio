@@ -94,7 +94,7 @@ export default function WorldExplorer() {
   }
 
   return (
-    <main className="relative h-screen overflow-hidden bg-[#1a2e4a]">
+    <main className="relative min-h-screen overflow-x-hidden bg-[#1a2e4a] lg:h-screen lg:overflow-hidden">
       <SceneViewport
         locations={WORLD_LOCATIONS}
         onEnterLocation={handleEnterLocation}
@@ -105,58 +105,47 @@ export default function WorldExplorer() {
       />
       <LoadingScreen visible={!sceneReady} />
 
-      {/* Top panel — header + portfolio link */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-4 p-4 sm:p-7 lg:p-10">
-        <header className="max-w-2xl rounded-3xl border border-white/25 bg-white/10 p-4 backdrop-blur-md sm:p-6">
-          <p className="text-xs uppercase tracking-[0.3em] text-amber-200/90">Mountain Portfolio World</p>
-          <h1 className="mt-3 text-balance text-3xl font-semibold text-white sm:text-4xl">
-            Explore The World
-          </h1>
-          <p className="mt-3 text-sm leading-relaxed text-sky-100/85 sm:text-base">
-            Navigate with WASD and mouse. Approach a location and press E to reveal its details,
-            or click the golden markers on the map.
-          </p>
-        </header>
+      {/* Mobile layout: vertical stack with normal flow.
+          Desktop (lg+): wrapper fills the viewport so each lg:absolute child anchors to main. */}
+      <div className="relative z-10 flex flex-col gap-4 p-4 sm:gap-5 sm:p-6 lg:absolute lg:inset-0 lg:gap-0 lg:p-0">
+        {/* Header + portfolio link */}
+        <div className="flex flex-col items-stretch gap-3 lg:absolute lg:inset-x-0 lg:top-0 lg:flex-row lg:items-start lg:justify-between lg:gap-4 lg:p-10">
+          <header className="rounded-3xl border border-white/25 bg-white/10 p-4 backdrop-blur-md sm:p-6 lg:max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-200/90">Mountain Portfolio World</p>
+            <h1 className="mt-3 text-balance text-2xl font-semibold text-white sm:text-3xl lg:text-4xl">
+              Explore The World
+            </h1>
+            <p className="mt-3 text-sm leading-relaxed text-sky-100/85 sm:text-base">
+              <span className="hidden lg:inline">
+                Navigate with WASD and mouse. Approach a location and press E to reveal its details,
+                or click the golden markers on the map.
+              </span>
+              <span className="lg:hidden">
+                Tap a location below to learn about each stop on the journey.
+              </span>
+            </p>
+          </header>
 
-        <a
-          href="https://arthurtorres75.github.io/portfolio/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="View Arthur Torres portfolio"
-          className="pointer-events-auto flex-shrink-0 rounded-full border border-amber-300/40 bg-black/40 px-4 py-2 text-sm font-semibold text-amber-200 backdrop-blur-md transition-colors hover:border-amber-300/70 hover:bg-amber-300/20"
-        >
-          See Portfolio →
-        </a>
-      </div>
+          <a
+            href="https://arthurtorres75.github.io/portfolio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View Arthur Torres portfolio"
+            className="self-start rounded-full border border-amber-300/40 bg-black/40 px-4 py-2 text-center text-sm font-semibold text-amber-200 backdrop-blur-md transition-colors hover:border-amber-300/70 hover:bg-amber-300/20 lg:flex-shrink-0"
+          >
+            See Portfolio →
+          </a>
+        </div>
 
-      {/* Nav buttons — independently anchored to bottom-left, never moves */}
-      <div className="pointer-events-none absolute bottom-14 left-4 z-10 sm:bottom-14 sm:left-7 lg:bottom-16 lg:left-10">
-        <aside className="pointer-events-auto flex max-w-xl flex-wrap content-start items-center gap-2 rounded-2xl border border-white/20 bg-white/8 p-3 backdrop-blur-md">
-          {WORLD_LOCATIONS.map((location) => (
-            <button
-              key={location.id}
-              type="button"
-              onClick={() => {
-                setSelectedLocationId(location.id);
-                activateSanctuary(location.id);
-              }}
-              className={`rounded-full px-4 py-2 text-xs font-semibold tracking-wide transition-colors sm:text-sm ${
-                selectedLocation.id === location.id
-                  ? "bg-amber-300 text-zinc-950"
-                  : "border border-white/30 bg-white/10 text-white hover:bg-white/20"
-              }`}
-            >
-              {location.label}
-            </button>
-          ))}
-        </aside>
-      </div>
+        {/* Mobile-only notice — hidden on desktop */}
+        <div className="rounded-2xl border border-amber-300/30 bg-amber-300/10 p-3 text-center text-xs leading-relaxed text-amber-100 backdrop-blur-md sm:text-sm lg:hidden">
+          For the full 3D mountain experience, please open this site on desktop.
+        </div>
 
-      {/* Location detail — independently anchored to bottom-right, grows up on its own */}
-      <div className="pointer-events-none absolute bottom-14 right-4 z-10 hidden w-[340px] sm:bottom-14 sm:right-7 lg:bottom-16 lg:right-10 lg:block">
-        <article className="pointer-events-auto max-h-56 overflow-y-auto rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur-md sm:p-5">
+        {/* Location detail */}
+        <article className="max-h-none overflow-visible rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur-md sm:p-5 lg:absolute lg:bottom-16 lg:right-10 lg:max-h-56 lg:w-[340px] lg:overflow-y-auto">
           <p className="text-xs uppercase tracking-[0.22em] text-amber-200/90">{selectedLocation.label}</p>
-          <h2 className="mt-2 text-xl font-semibold text-white">{selectedLocation.title}</h2>
+          <h2 className="mt-2 text-lg font-semibold text-white sm:text-xl">{selectedLocation.title}</h2>
           <p className="mt-2 text-sm leading-relaxed text-zinc-100/95">
             {selectedLocation.description}
           </p>
@@ -171,15 +160,37 @@ export default function WorldExplorer() {
             </p>
           ))}
         </article>
+
+        {/* Nav buttons */}
+        <aside className="flex flex-wrap content-start items-center gap-2 rounded-2xl border border-white/20 bg-white/8 p-3 backdrop-blur-md lg:absolute lg:bottom-16 lg:left-10 lg:max-w-xl">
+          {WORLD_LOCATIONS.map((location) => (
+            <button
+              key={location.id}
+              type="button"
+              onClick={() => {
+                setSelectedLocationId(location.id);
+                activateSanctuary(location.id);
+              }}
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold tracking-wide transition-colors sm:px-4 sm:py-2 sm:text-sm ${
+                selectedLocation.id === location.id
+                  ? "bg-amber-300 text-zinc-950"
+                  : "border border-white/30 bg-white/10 text-white hover:bg-white/20"
+              }`}
+            >
+              {location.label}
+            </button>
+          ))}
+        </aside>
       </div>
 
+      {/* Desktop-only HUD hints */}
       {nearestLocation ? (
-        <div className="pointer-events-none absolute bottom-28 left-1/2 z-20 -translate-x-1/2 rounded-full border border-amber-100/45 bg-black/45 px-4 py-2 text-sm text-amber-100 backdrop-blur">
+        <div className="pointer-events-none absolute bottom-28 left-1/2 z-20 hidden -translate-x-1/2 rounded-full border border-amber-100/45 bg-black/45 px-4 py-2 text-sm text-amber-100 backdrop-blur lg:block">
           Near {nearestLocation.label}. Press E to enter.
         </div>
       ) : null}
 
-      <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/20 bg-black/45 px-4 py-2 text-xs tracking-[0.18em] text-zinc-100/90 backdrop-blur sm:text-sm">
+      <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 rounded-full border border-white/20 bg-black/45 px-4 py-2 text-xs tracking-[0.18em] text-zinc-100/90 backdrop-blur lg:block lg:text-sm">
         WASD move · Mouse look · Shift sprint · ESC release mouse
       </div>
     </main>
