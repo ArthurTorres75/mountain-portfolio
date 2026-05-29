@@ -1,13 +1,14 @@
 "use client";
 
 import { getToonGradientMap } from "@/lib/toonGradient";
+import { Character } from "@/three/characters/CharacterModels";
 
 const WOOD = "#a87848";
 const DARK_WOOD = "#7a5530";
 
 type GradientMap = ReturnType<typeof getToonGradientMap>;
 
-// Railing built from vertical posts + horizontal top rails.
+// Railing from vertical posts + horizontal top rails.
 // posts: [x, z]   rails: [centerX, centerZ, length, axis]
 function Railing({
   posts,
@@ -36,64 +37,66 @@ function Railing({
   );
 }
 
-// Tourist viewpoint over the town lake [-5.5, 0.5].
-// Boardwalk runs from the main road (+X) west onto a deck above the water (−X).
-export default function LakeViewpoint() {
+// Tourist boardwalk for the east dodecahedron lake [14.0, -1.2].
+// Runs straight east from the upper-right branch road (east edge ≈ x=7.95)
+// onto a deck above the water. Group base sits at the boardwalk deck height.
+export default function EastLakeViewpoint({ isDay = true }: { isDay?: boolean }) {
   const gradientMap = getToonGradientMap();
 
+  // Anchored just east of the branch road; boardwalk runs +X toward the water.
   return (
-    <group position={[-4.0, -0.72, 0.5]}>
-      {/* Boardwalk floor — street → deck */}
-      <mesh position={[1.0, 0.12, 0]}>
-        <boxGeometry args={[2.6, 0.1, 1.2]} />
+    <group position={[8.0, -0.72, -1.2]}>
+      {/* Access boardwalk — road → lake edge */}
+      <mesh position={[1.65, 0.12, 0]}>
+        <boxGeometry args={[3.7, 0.1, 1.4]} />
         <meshToonMaterial color={WOOD} gradientMap={gradientMap} />
       </mesh>
-      {/* Viewpoint deck — extends over the water */}
-      <mesh position={[-1.4, 0.12, 0]}>
-        <boxGeometry args={[2.4, 0.1, 2.6]} />
+      {/* Viewpoint deck — over the water */}
+      <mesh position={[5.0, 0.12, 0]}>
+        <boxGeometry args={[3.0, 0.1, 2.8]} />
         <meshToonMaterial color={WOOD} gradientMap={gradientMap} />
       </mesh>
 
       {/* Support posts sunk into the lake */}
       {([
-        [-0.4, -1.1], [-0.4, 1.1], [-2.4, -1.1], [-2.4, 1.1], [-1.4, 0],
+        [4.2, -1.2], [4.2, 1.2], [5.8, -1.2], [5.8, 1.2], [5.0, 0],
       ] as [number, number][]).map(([x, z], i) => (
         <mesh key={`sp-${i}`} position={[x, -0.25, z]}>
-          <cylinderGeometry args={[0.08, 0.08, 0.8, 6]} />
+          <cylinderGeometry args={[0.08, 0.08, 0.82, 6]} />
           <meshToonMaterial color={DARK_WOOD} gradientMap={gradientMap} />
         </mesh>
       ))}
 
-      {/* Boardwalk railings — both sides */}
+      {/* Access railings — both sides */}
       <Railing
         gradientMap={gradientMap}
         posts={[
-          [0.0, 0.55], [0.7, 0.55], [1.4, 0.55], [2.1, 0.55],
-          [0.0, -0.55], [0.7, -0.55], [1.4, -0.55], [2.1, -0.55],
+          [0.0, 0.7], [0.9, 0.7], [1.8, 0.7], [2.7, 0.7], [3.5, 0.7],
+          [0.0, -0.7], [0.9, -0.7], [1.8, -0.7], [2.7, -0.7], [3.5, -0.7],
         ]}
         rails={[
-          [1.05, 0.55, 2.3, "x"],
-          [1.05, -0.55, 2.3, "x"],
+          [1.75, 0.7, 3.7, "x"],
+          [1.75, -0.7, 3.7, "x"],
         ]}
       />
 
-      {/* Deck perimeter railings — far edge + two sides, open toward the boardwalk */}
+      {/* Deck perimeter railings — far edge + two sides, open toward the access */}
       <Railing
         gradientMap={gradientMap}
         posts={[
-          [-2.55, -1.2], [-2.55, -0.6], [-2.55, 0], [-2.55, 0.6], [-2.55, 1.2],
-          [-1.9, 1.25], [-1.2, 1.25], [-0.5, 1.25],
-          [-1.9, -1.25], [-1.2, -1.25], [-0.5, -1.25],
+          [6.4, -1.3], [6.4, -0.65], [6.4, 0], [6.4, 0.65], [6.4, 1.3],
+          [4.0, 1.4], [4.7, 1.4], [5.4, 1.4], [6.1, 1.4],
+          [4.0, -1.4], [4.7, -1.4], [5.4, -1.4], [6.1, -1.4],
         ]}
         rails={[
-          [-2.55, 0, 2.5, "z"],
-          [-1.4, 1.25, 2.2, "x"],
-          [-1.4, -1.25, 2.2, "x"],
+          [6.4, 0, 2.7, "z"],
+          [5.1, 1.4, 2.7, "x"],
+          [5.1, -1.4, 2.7, "x"],
         ]}
       />
 
       {/* Bench facing the water */}
-      <group position={[-0.7, 0, 0]}>
+      <group position={[6.0, 0, 0]}>
         <mesh position={[0, 0.3, 0]}>
           <boxGeometry args={[0.32, 0.06, 1.0]} />
           <meshToonMaterial color={WOOD} gradientMap={gradientMap} />
@@ -105,7 +108,7 @@ export default function LakeViewpoint() {
       </group>
 
       {/* Tourist signpost at the entrance */}
-      <group position={[2.3, 0, 0.75]}>
+      <group position={[-0.2, 0, 0.85]}>
         <mesh position={[0, 0.45, 0]}>
           <cylinderGeometry args={[0.05, 0.05, 0.9, 6]} />
           <meshToonMaterial color={DARK_WOOD} gradientMap={gradientMap} />
@@ -115,6 +118,20 @@ export default function LakeViewpoint() {
           <meshToonMaterial color="#c89a5a" gradientMap={gradientMap} />
         </mesh>
       </group>
+
+      {/* Visitors standing at the rail, looking out over the water (hidden at night) */}
+      {isDay && (
+        <>
+          <Character
+            position={[5.6, 0.17, -0.7]} rotation={[0, Math.PI / 2, 0]} scale={0.66}
+            bodyColor="#2a3a5a" shirtColor="#e8dcc0" skinColor="#c49070" hairColor="#1a0a08"
+          />
+          <Character
+            position={[5.6, 0.17, 0.6]} rotation={[0, Math.PI / 2, 0]} scale={0.64}
+            bodyColor="#5a3a2a" shirtColor="#a0c0b0" skinColor="#d4a07a" hairColor="#0c0906"
+          />
+        </>
+      )}
     </group>
   );
 }

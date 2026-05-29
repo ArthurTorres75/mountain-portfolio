@@ -37,6 +37,11 @@ export const cabinPositions: [number, number, number, number, number][] = [
   [-11.7, -0.72, -13.5, 0.92,  Math.PI / 2], // pulled back west so the door sits at the street edge
   // summit cabin removed — replaced by a dedicated two-story lookout in TerrainStructures
   [-2.4, -0.72, -13.0, 0.92,  Math.PI / 2],  // moved north, clear of center mountain foot
+  // ── Added fill-in houses ──
+  [ 2.4, -0.72,  -2.0, 0.92, -Math.PI / 2],  // upper right main, fills gap
+  [ 2.4, -0.72,  -9.0, 0.90, -Math.PI / 2],  // moved to east main gap (was -2.4,-9 — car was stuck in it)
+  [ 8.8, -0.72,  -4.5, 0.88, -Math.PI / 2],  // right branch, north end
+  [-9.0, -0.72,  -3.5, 0.88,  Math.PI / 2],  // left branch, clear of river
 
   // ── Lower town (positive Z — town expansion side) ────────────────────
   [ 2.4, -0.72,   2.0, 0.90, -Math.PI / 2],  // main path, right side
@@ -53,6 +58,13 @@ export const cabinPositions: [number, number, number, number, number][] = [
   [ 9.2, -0.72,  12.0, 0.88, -Math.PI / 2],  // X=+7.5 branch, east side
   [-5.8, -0.72,  11.8, 0.88, -Math.PI / 2],  // X=-7.5 branch, east side
   [-9.2, -0.72,  11.8, 0.88,  Math.PI / 2],  // X=-7.5 branch, west side
+];
+
+// Two-story houses — rendered by TownExtras. Same [x,y,z,scale,rotationY] format;
+// door faces the road per the rotationY convention above.
+export const twoStoryCabinPositions: [number, number, number, number, number][] = [
+  [ 2.4, -0.72, -11.5, 0.92, -Math.PI / 2],  // upper right main — landmark
+  [-5.0, -0.72,  17.0, 0.95,  Math.PI],      // lower town north end
 ];
 
 export const treePositions: [number, number, number][] = [
@@ -313,9 +325,8 @@ export const sidePathSegments: [number, number, number, number, number, number][
 export const lakePositions: [number, number, number, number, number, number][] = [
   [-5.5, -0.76, 0.5, 5.0, 4.0, 0],
   [14.0, -0.758, -1.2, 5.8, 4.0, -0.16],
-  [-14.8, -0.758, -14.2, 6.2, 4.4, 0.1],
   [14.6, -0.758, -15.4, 6.0, 4.2, -0.14],
-  // [0.0, -0.758, 8.2, ...] removed — sat on top of the main path at X=0
+  // removed: [-14.8,-14.2] (no longer a lake) and [0.0,8.2] (sat on the main path)
 ];
 
 export const shrubPositions: [number, number, number, number][] = [
@@ -394,7 +405,19 @@ export const SUMMIT_CABIN: [number, number] = [12.0, -13.8];
 
 export function isNearCabin(x: number, z: number, padding = 0): boolean {
   if (Math.hypot(x - SUMMIT_CABIN[0], z - SUMMIT_CABIN[1]) < 1.6 + padding) return true;
-  return cabinPositions.some(([cx, , cz, scale]) => Math.hypot(x - cx, z - cz) < 1.2 * scale + padding);
+  const all = [...cabinPositions, ...twoStoryCabinPositions];
+  return all.some(([cx, , cz, scale]) => Math.hypot(x - cx, z - cz) < 1.2 * scale + padding);
+}
+
+// Parked car footprints — KEEP IN SYNC with StreetCars PARKED. Used to keep
+// trees and decorations from spawning on top of parked cars.
+export const parkedCarPositions: [number, number][] = [
+  [-12.0, -9.5], [2.6, -3.5], [3.8, 8.0], [-3.5, -8.0],
+  [-3.8, 8.0], [3.2, 0.0], [11.5, -9.5],
+];
+
+export function isNearParkedCar(x: number, z: number, padding = 0): boolean {
+  return parkedCarPositions.some(([cx, cz]) => Math.hypot(x - cx, z - cz) < 1.4 + padding);
 }
 
 export function isNearLake(x: number, z: number, padding = 0): boolean {
@@ -444,7 +467,8 @@ export const safeTreePositions = treePositions.filter(
     !isNearRiver(x, z, 0.6) &&
     !isNearLake(x, z, 0.8) &&
     !isNearBridge(x, z, 0.6) &&
-    !isOnPath(x, z, 0.8),
+    !isOnPath(x, z, 0.8) &&
+    !isNearParkedCar(x, z, 0.6),
 );
 
 export const safeRockPositions = rockPositions.filter(
@@ -463,7 +487,8 @@ export const safeShrubPositions = shrubPositions.filter(
     !isNearCabin(x, z, 0.8) &&
     !isNearRiver(x, z, 0.5) &&
     !isNearLake(x, z, 0.6) &&
-    !isNearBridge(x, z, 0.5),
+    !isNearBridge(x, z, 0.5) &&
+    !isNearParkedCar(x, z, 0.5),
 );
 
 export const safeLakePositions = lakePositions.filter(([x, , z, width, length]) => {

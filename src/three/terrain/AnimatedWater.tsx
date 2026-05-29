@@ -1,8 +1,10 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { ShaderMaterial, Color, DoubleSide } from "three";
+import { safeLakePositions } from "./terrainData";
+import { getToonGradientMap } from "@/lib/toonGradient";
 
 // Western river corridor — from mountain spring to the town lake at (-5.5, 0.5).
 // Positions mirror RIVER_CORRIDOR in terrainData.ts so flora filters match exactly.
@@ -25,6 +27,7 @@ const RIVER_SEGMENTS: [number, number, number, number, number][] = [
 ];
 
 const WATER_Y = -0.77;
+const TOWN_LAKE_CENTER: [number, number] = [-5.5, 0.5];
 
 const vertexShader = /* glsl */ `
   varying vec2 vUv;
@@ -58,7 +61,7 @@ const fragmentShader = /* glsl */ `
 `;
 
 export default function AnimatedWater() {
-  const materialRef = useRef<ShaderMaterial | null>(null);
+  const gradientMap = getToonGradientMap();
 
   const material = useMemo(
     () =>
@@ -80,19 +83,63 @@ export default function AnimatedWater() {
     material.uniforms.time.value += delta;
   });
 
+  const largestRemoteLake = useMemo(() => {
+    const townLakeDistSq = (x: number, z: number) => {
+      const dx = x - TOWN_LAKE_CENTER[0];
+      const dz = z - TOWN_LAKE_CENTER[1];
+      return dx * dx + dz * dz;
+    };
+
+    return safeLakePositions
+      .filter(([x, , z]) => townLakeDistSq(x, z) > 64)
+      .reduce<([number, number, number, number, number, number] | null)>((largest, lake) => {
+        const currentRadius = Math.max(lake[3], lake[4]);
+        if (!largest) return lake;
+        const largestRadius = Math.max(largest[3], largest[4]);
+        return currentRadius > largestRadius ? lake : largest;
+      }, null);
+  }, []);
+
+  const remoteLakeDiameter = largestRemoteLake ? Math.max(largestRemoteLake[3], largestRemoteLake[4]) * 0.72 : 0;
+
   return (
     <group>
       {RIVER_SEGMENTS.map(([x, z, width, length, rotY], i) => (
-        <mesh
-          key={`river-${i}`}
-          rotation={[-Math.PI / 2, rotY, 0]}
-          position={[x, WATER_Y, z]}
-        >
-          <planeGeometry args={[width, length, 1, 1]} />
-          {/* primitive allows reusing one ShaderMaterial instance across all river segments */}
-          <primitive object={material} attach="material" />
-        </mesh>
+        i === RIVER_SEGMENTS.length - 1 ? (
+          // Final segment is the town lake: render as a flattened dodecahedron.
+          <mesh
+            key={`river-${i}`}
+            position={[x, WATER_Y - 0.02, z]}
+            rotation={[0, rotY, 0]}
+            scale={[width * 0.5, 0.2, length * 0.5]}
+          >
+            <dodecahedronGeometry args={[1, 0]} />
+            <primitive object={material} attach="material" />
+          </mesh>
+        ) : (
+          <mesh
+            key={`river-${i}`}
+            rotation={[-Math.PI / 2, rotY, 0]}
+            position={[x, WATER_Y, z]}
+          >
+            <planeGeometry args={[width, length, 1, 1]} />
+            {/* primitive allows reusing one ShaderMaterial instance across all river segments */}
+            <primitive object={material} attach="material" />
+          </mesh>
+        )
       ))}
+
+      {largestRemoteLake && (
+        <mesh
+          key="remote-lake"
+          position={[largestRemoteLake[0], largestRemoteLake[1] - 0.002, largestRemoteLake[2]]}
+          rotation={[0, largestRemoteLake[5], 0]}
+          scale={[remoteLakeDiameter, 0.02, remoteLakeDiameter]}
+        >
+          <dodecahedronGeometry args={[1, 0]} />
+          <meshToonMaterial color="#5aaed4" gradientMap={gradientMap} transparent opacity={0.88} />
+        </mesh>
+      )}
     </group>
   );
 }

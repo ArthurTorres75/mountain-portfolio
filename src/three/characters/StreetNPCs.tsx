@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Group, Mesh } from "three";
 import { ensurePedSlot } from "./trafficRegistry";
+import { isNearCabin } from "../terrain/terrainData";
 
 // Each NPC walks back and forth between two waypoints
 interface NPCDef {
@@ -19,18 +20,25 @@ interface NPCDef {
 
 // Sidewalks: just outside each road edge (main road edge x=±1.6, cross edge z±1.1)
 const NPCS: NPCDef[] = [
-  // Main N-S road — east sidewalk (x=2.3, clear of car lane x=1)
-  { from: [2.3, -0.72, 1],    to: [2.3, -0.72, 12],   speed: 0.80, body: "#2a4a8a", shirt: "#e8d8c0", skin: "#c4906a", hair: "#1a0a0a", initialProgress: 0.1 },
-  // Main N-S road — west sidewalk (x=-2.3)
-  { from: [-2.3, -0.72, -1],  to: [-2.3, -0.72, -12], speed: 0.60, body: "#4a3a2a", shirt: "#8a3a2a", skin: "#d4a07a", hair: "#3a2a1a", initialProgress: 0.5 },
-  // Cross street z=5 — south sidewalk (z=3.4, clear of car lane z=4.5)
-  { from: [-5.5, -0.72, 3.4], to: [5.5, -0.72, 3.4],  speed: 0.70, body: "#3a5a3a", shirt: "#c8b090", skin: "#b87850", hair: "#0a0a0a", initialProgress: 0.3 },
-  // Cross street z=10 — north sidewalk (z=11.6)
-  { from: [-4.5, -0.72, 11.6],to: [4.5, -0.72, 11.6], speed: 0.90, body: "#6a4a3a", shirt: "#d4c4a0", skin: "#bf8a5e", hair: "#1a1008", initialProgress: 0.7 },
-  // East branch road x=7.5 — east sidewalk (x=8.7)
-  { from: [8.7, -0.72, 7],    to: [8.7, -0.72, 14],   speed: 0.65, body: "#3a3a5a", shirt: "#f0e8d0", skin: "#c8a07a", hair: "#4a2a0a", initialProgress: 0.2 },
-  // West branch road x=-7.5 — west sidewalk (x=-8.7)
-  { from: [-8.7, -0.72, 7],   to: [-8.7, -0.72, 14],  speed: 0.75, body: "#5a3a3a", shirt: "#a0c0a0", skin: "#d4a888", hair: "#0a0808", initialProgress: 0.8 },
+  // Main N-S road — east sidewalk (x=2.3), gap between the roadside houses
+  { from: [2.3, -0.72, 3.6], to: [2.3, -0.72, 11.5], speed: 0.80, body: "#2a4a8a", shirt: "#e8d8c0", skin: "#c4906a", hair: "#1a0a0a", initialProgress: 0.1 },
+  // Main N-S road — west sidewalk (x=-2.3), gap between houses (z=-3.5..-8)
+  { from: [-2.3, -0.72, -3.5], to: [-2.3, -0.72, -8.0], speed: 0.60, body: "#4a3a2a", shirt: "#8a3a2a", skin: "#d4a07a", hair: "#3a2a1a", initialProgress: 0.5 },
+  // Cross street z=5 — south sidewalk (z=3.4), clear of the x=±5 houses
+  { from: [-3.8, -0.72, 3.4], to: [3.8, -0.72, 3.4],  speed: 0.70, body: "#3a5a3a", shirt: "#c8b090", skin: "#b87850", hair: "#0a0a0a", initialProgress: 0.3 },
+  // Cross street z=10 — north sidewalk (z=11.6), clear of the x=±5.5 houses
+  { from: [-3.8, -0.72, 11.6],to: [3.8, -0.72, 11.6], speed: 0.90, body: "#6a4a3a", shirt: "#d4c4a0", skin: "#bf8a5e", hair: "#1a1008", initialProgress: 0.7 },
+  // East branch road x=7.5 — east sidewalk (x=8.7), below the z=12 houses
+  { from: [8.7, -0.72, 6.0],  to: [8.7, -0.72, 10.5], speed: 0.65, body: "#3a3a5a", shirt: "#f0e8d0", skin: "#c8a07a", hair: "#4a2a0a", initialProgress: 0.2 },
+  // West branch road x=-7.5 — west sidewalk (x=-8.7), below the z=12 houses
+  { from: [-8.7, -0.72, 6.0], to: [-8.7, -0.72, 10.5], speed: 0.75, body: "#5a3a3a", shirt: "#a0c0a0", skin: "#d4a888", hair: "#0a0808", initialProgress: 0.8 },
+  // Far lake tourist promenade — access from street to lake loop
+  { from: [10.5, -0.72, -16.3], to: [13.1, -0.72, -15.7], speed: 0.62, body: "#3b4a63", shirt: "#d6c7a8", skin: "#c99670", hair: "#24130b", initialProgress: 0.4 },
+  // Far lake tourist promenade — segment around the lake edge
+  { from: [16.3, -0.72, -14.0], to: [16.3, -0.72, -16.1], speed: 0.52, body: "#4d3d2f", shirt: "#9ab6cf", skin: "#d7ae88", hair: "#1a120c", initialProgress: 0.7 },
+  // East-lake mirador — strollers on the boardwalk and deck (y on the deck surface)
+  { from: [8.6, -0.55, -1.2], to: [13.5, -0.55, -1.2], speed: 0.50, body: "#3a4a6a", shirt: "#e0d2b0", skin: "#c89070", hair: "#201008", initialProgress: 0.15 },
+  { from: [12.5, -0.55, -2.2], to: [12.5, -0.55, 0.0], speed: 0.42, body: "#5a3a3a", shirt: "#a8c0c8", skin: "#d4a888", hair: "#100a08", initialProgress: 0.6 },
 ];
 
 function NPCCharacter({
@@ -55,10 +63,20 @@ function NPCCharacter({
   }, [slot]);
 
   useFrame((_, delta) => {
-    progressRef.current += delta * def.speed * dirRef.current * 0.1;
+    // Compute the candidate next position, clamping/bouncing at path ends
+    let np = progressRef.current + delta * def.speed * dirRef.current * 0.1;
+    if (np >= 1) { np = 1; dirRef.current = -1; }
+    if (np <= 0) { np = 0; dirRef.current = 1; }
 
-    if (progressRef.current >= 1) { progressRef.current = 1; dirRef.current = -1; }
-    if (progressRef.current <= 0) { progressRef.current = 0; dirRef.current =  1; }
+    const cx = def.from[0] + (def.to[0] - def.from[0]) * np;
+    const cz = def.from[2] + (def.to[2] - def.from[2]) * np;
+
+    // Never walk into a house — turn around before entering a cabin footprint
+    if (isNearCabin(cx, cz, 0)) {
+      dirRef.current = -dirRef.current;
+    } else {
+      progressRef.current = np;
+    }
 
     const p = progressRef.current;
     const x = def.from[0] + (def.to[0] - def.from[0]) * p;

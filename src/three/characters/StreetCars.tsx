@@ -194,7 +194,7 @@ const PARKED: { pos: [number, number, number]; rotY: number; color: string; roof
   { pos: [2.6, CAR_Y, -3.5], rotY: 0,            color: "#e8e8e0", roofColor: "#b0b0a8" },
   // Purple — green band between z=5 and z=10 streets, parallel to cross street
   { pos: [3.8, CAR_Y, 8.0], rotY: Math.PI / 2,   color: "#4a2a8a", roofColor: "#321c60" },
-  { pos: [-2.6, CAR_Y, -8.0], rotY: Math.PI,     color: "#2a6a3a", roofColor: "#1a4828" },
+  { pos: [-3.5, CAR_Y, -8.0], rotY: Math.PI,     color: "#2a6a3a", roofColor: "#1a4828" },
   // Orange — green band, mirrored, parallel to cross street
   { pos: [-3.8, CAR_Y, 8.0], rotY: Math.PI / 2,  color: "#c06030", roofColor: "#904020" },
   // Gray — east green strip, pushed out to x=3.2 so it clears the sidewalk line

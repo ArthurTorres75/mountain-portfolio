@@ -1,10 +1,27 @@
 "use client";
 
+import { useMemo } from "react";
 import { getToonGradientMap } from "@/lib/toonGradient";
 import { safeLakePositions, safePathSegments } from "./terrainData";
 
 export default function TerrainGround() {
   const gradientMap = getToonGradientMap();
+  const remoteLargestLake = useMemo(() => {
+    const townX = -5.5;
+    const townZ = 0.5;
+    const minDistSq = 64;
+    return safeLakePositions
+      .filter(([x, , z]) => {
+        const dx = x - townX;
+        const dz = z - townZ;
+        return dx * dx + dz * dz > minDistSq;
+      })
+      .reduce<([number, number, number, number, number, number] | null)>((largest, lake) => {
+        const size = Math.max(lake[3], lake[4]);
+        if (!largest) return lake;
+        return size > Math.max(largest[3], largest[4]) ? lake : largest;
+      }, null);
+  }, []);
 
   return (
     <group>
@@ -39,11 +56,13 @@ export default function TerrainGround() {
         );
       })}
 
-      {/* Lakes — flattened dodecahedra, rounded and sunk flush into the terrain */}
-      {safeLakePositions.map(([x, y, z, width, length, rotationY], i) => (
+      {/* Lakes — flattened dodecahedra */}
+      {safeLakePositions
+        .filter(([x, , z]) => !(remoteLargestLake && x === remoteLargestLake[0] && z === remoteLargestLake[2]))
+        .map(([x, y, z, width, length, rotationY], i) => (
         <mesh
           key={`lake-${i}`}
-          position={[x, y - 0.3, z]}
+          position={[x, y - 0.06, z]}
           rotation={[0, rotationY, 0]}
           scale={[width * 0.5, 0.32, length * 0.5]}
         >
@@ -51,6 +70,19 @@ export default function TerrainGround() {
           <meshToonMaterial color="#5aaed4" gradientMap={gradientMap} transparent opacity={0.85} />
         </mesh>
       ))}
+
+      {/* Largest far lake: uniform (non-stretched) dodeca and bigger diameter */}
+      {remoteLargestLake && (
+        <mesh
+          position={[remoteLargestLake[0], remoteLargestLake[1] - 0.008, remoteLargestLake[2]]}
+          rotation={[0, remoteLargestLake[5], 0]}
+          scale={[Math.max(remoteLargestLake[3], remoteLargestLake[4]) * 0.72, 0.045, Math.max(remoteLargestLake[3], remoteLargestLake[4]) * 0.72]}
+        >
+          <dodecahedronGeometry args={[1, 0]} />
+          <meshToonMaterial color="#5aaed4" gradientMap={gradientMap} transparent opacity={0.86} />
+        </mesh>
+      )}
+
     </group>
   );
 }
