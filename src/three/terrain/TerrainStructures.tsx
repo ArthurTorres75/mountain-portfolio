@@ -79,7 +79,7 @@ export default function TerrainStructures() {
       ))}
 
       {/* Sanctuary platform — hidden between mountains */}
-      <group position={[-14.5, -0.72, -15.5]}>
+      <group position={[-18.0, -0.72, -24.0]}>
         <mesh>
           <cylinderGeometry args={[1.25, 1.45, 0.32, 10]} />
           <meshToonMaterial color="#9b8f7f" gradientMap={gradientMap} />

@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { ShaderMaterial, Color, DoubleSide } from "three";
 
@@ -25,26 +26,6 @@ const RIVER_SEGMENTS: [number, number, number, number, number][] = [
 
 const WATER_Y = -0.77;
 
-// Module-level singleton — created once, shared across all river mesh instances.
-// Lives outside any hook so mutation in useFrame has no lint restrictions.
-let waterMaterial: ShaderMaterial | null = null;
-function getWaterMaterial(): ShaderMaterial {
-  if (!waterMaterial) {
-    waterMaterial = new ShaderMaterial({
-      uniforms: {
-        time:  { value: 0 },
-        color: { value: new Color("#4fa8cc") },
-      },
-      vertexShader,
-      fragmentShader,
-      transparent: true,
-      side: DoubleSide,
-      depthWrite: false,
-    });
-  }
-  return waterMaterial;
-}
-
 const vertexShader = /* glsl */ `
   varying vec2 vUv;
   void main() {
@@ -60,8 +41,8 @@ const fragmentShader = /* glsl */ `
 
   void main() {
     // Two interfering wave directions — creates a natural ripple pattern
-    float wave1 = sin(vUv.x * 10.0 + time * 1.8) * 0.5 + 0.5;
-    float wave2 = sin(vUv.y * 8.0 - time * 1.4 + vUv.x * 3.0) * 0.5 + 0.5;
+    float wave1 = sin(vUv.x * 10.0 - time * 1.8) * 0.5 + 0.5;
+    float wave2 = sin(vUv.y * 8.0 + time * 1.4 + vUv.x * 3.0) * 0.5 + 0.5;
     float waves  = (wave1 + wave2) * 0.5;
 
     // 3-step toon shading to match the world gradientMap aesthetic
@@ -77,8 +58,26 @@ const fragmentShader = /* glsl */ `
 `;
 
 export default function AnimatedWater() {
+  const materialRef = useRef<ShaderMaterial | null>(null);
+
+  const material = useMemo(
+    () =>
+      new ShaderMaterial({
+        uniforms: {
+          time:  { value: 0 },
+          color: { value: new Color("#4fa8cc") },
+        },
+        vertexShader,
+        fragmentShader,
+        transparent: true,
+        side: DoubleSide,
+        depthWrite: false,
+      }),
+    []
+  );
+
   useFrame((_, delta) => {
-    getWaterMaterial().uniforms.time.value += delta;
+    material.uniforms.time.value += delta;
   });
 
   return (
@@ -90,8 +89,8 @@ export default function AnimatedWater() {
           position={[x, WATER_Y, z]}
         >
           <planeGeometry args={[width, length, 1, 1]} />
-          {/* primitive reuses one ShaderMaterial instance across all river segments */}
-          <primitive object={getWaterMaterial()} attach="material" />
+          {/* primitive allows reusing one ShaderMaterial instance across all river segments */}
+          <primitive object={material} attach="material" />
         </mesh>
       ))}
     </group>

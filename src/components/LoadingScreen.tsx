@@ -39,9 +39,9 @@ export default function LoadingScreen({ visible }: LoadingScreenProps) {
   // Scene ready → snap to 100, then unmount after fade completes
   useEffect(() => {
     if (!visible) {
-      const snap   = setTimeout(() => setProgress(100), 0);
-      const unmount = setTimeout(() => setMounted(false), 1100);
-      return () => { clearTimeout(snap); clearTimeout(unmount); };
+      setProgress(100);
+      const t = setTimeout(() => setMounted(false), 1100);
+      return () => clearTimeout(t);
     }
   }, [visible]);
 

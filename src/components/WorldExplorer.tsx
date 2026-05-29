@@ -60,7 +60,7 @@ const WORLD_LOCATIONS: WorldLocation[] = [
       "\"Pray to your Father who sees in secret, and your Father who sees in secret will reward you openly.\" — Matthew 6:6",
       "All glory be to God.",
     ],
-    worldPosition: [-14.5, 0.28, -15.5],
+    worldPosition: [-18.0, 0.28, -24.0],
   },
   {
     id: SECTION.CONTACT,
