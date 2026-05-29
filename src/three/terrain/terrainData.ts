@@ -32,11 +32,11 @@ export const cabinPositions: [number, number, number, number, number][] = [
   // ── Upper town (negative Z — mountain side) ──────────────────────────
   [-2.4, -0.72,  -2.2, 0.95,  Math.PI / 2],  // main path, left side
   [ 2.4, -0.72,  -6.2, 0.90, -Math.PI / 2],  // main path, right side
-  [-8.5, -0.72,  -7.5, 0.90,  Math.PI / 2],  // left branch, west side
+  [-8.5, -0.72,  -7.5, 0.90, -Math.PI / 2],  // bridge cabin — door faces away from river (west)
   [ 8.8, -0.72,  -9.5, 0.88, -Math.PI / 2],  // right branch, east side
-  [-11.0, -0.72, -13.5, 0.92,  Math.PI / 2], // left branch, west side
-  [ 8.1, -0.72, -13.8, 1.00,  0],            // summit platform
-  [-2.4, -0.72, -16.0, 0.92,  Math.PI / 2],  // main path, left side
+  [-11.7, -0.72, -13.5, 0.92,  Math.PI / 2], // pulled back west so the door sits at the street edge
+  // summit cabin removed — replaced by a dedicated two-story lookout in TerrainStructures
+  [-2.4, -0.72, -13.0, 0.92,  Math.PI / 2],  // moved north, clear of center mountain foot
 
   // ── Lower town (positive Z — town expansion side) ────────────────────
   [ 2.4, -0.72,   2.0, 0.90, -Math.PI / 2],  // main path, right side
@@ -64,19 +64,18 @@ export const treePositions: [number, number, number][] = [
   [5.2, -0.35, -12.4], [-2.8, -0.36, -14.2], [2.9, -0.36, -14.6],
   [-9.4, -0.34, -12.2], [-10.3, -0.34, -15.0], [9.1, -0.34, -13.2],
   [10.0, -0.34, -15.2], [-8.5, -0.32, -7.6], [8.8, -0.34, -6.7],
-  [-12.8, -0.34, -3.2], [12.4, -0.34, -3.5], [-13.6, -0.34, -8.2],
+  [12.4, -0.34, -3.5], [-13.6, -0.34, -8.2],
   [13.1, -0.34, -8.8], [-12.1, -0.34, -16.4], [12.6, -0.34, -16.9],
   [-6.8, -0.34, -18.2], [6.9, -0.34, -18.4],
   // Far left wing
   [-15.2, -0.34, -5.4], [-16.8, -0.34, -8.6], [-15.6, -0.34, -11.8],
-  [-17.4, -0.34, -14.2], [-18.0, -0.34, -7.2], [-19.2, -0.34, -4.0],
-  [-14.4, -0.34, -2.6], [-20.0, -0.34, -10.5], [-19.5, -0.34, -16.8],
+  [-17.4, -0.34, -14.2], [-18.0, -0.34, -7.2],
+  [-20.0, -0.34, -10.5], [-19.5, -0.34, -16.8],
   // Far right wing
   [14.8, -0.34, -5.1], [16.2, -0.34, -8.4], [15.4, -0.34, -11.6],
   [17.1, -0.34, -14.5], [18.3, -0.34, -7.0], [19.0, -0.34, -4.2],
   [14.2, -0.34, -2.8], [20.1, -0.34, -10.2], [19.4, -0.34, -16.6],
   // Foreground left/right
-  [-15.4, -0.32, -1.2], [-17.2, -0.3, 2.0],
   [15.1, -0.32, -1.5], [16.8, -0.3, 1.8],
   // Deep back (near mountain bases)
   [-8.8, -0.34, -16.8], [-7.6, -0.34, -19.0],
@@ -89,7 +88,7 @@ export const treePositions: [number, number, number][] = [
   [-5.6, -0.34, -10.8], [5.4, -0.34, -11.2],
   [-11.4, -0.34, -5.6], [11.2, -0.34, -6.0],
   [-14.6, -0.34, -11.6], [14.4, -0.34, -12.0],
-  [-16.0, -0.34, -3.8], [15.8, -0.34, -4.2],
+  [15.8, -0.34, -4.2],
   [-18.6, -0.34, -13.0], [18.4, -0.34, -13.4],
   [-20.4, -0.34, -7.8], [20.2, -0.34, -8.2],
   // Outer perimeter — wide spread
@@ -170,6 +169,15 @@ export const treePositions: [number, number, number][] = [
   [-3.0, -0.34, -24.5], [3.4, -0.34, -24.9],
   [-2.4, -0.34, -27.8], [2.8, -0.34, -28.2],
   [-3.6, -0.34, -31.6], [4.0, -0.34, -32.0],
+  // Dog park trees — at fence gaps between benches, clear of equipment & paths
+  [-13.25, -0.34,  6.6], [-18.75, -0.34,  6.6],   // north fence, between benches
+  [-13.25, -0.34, -4.6], [-18.75, -0.34, -4.6],   // south fence, between benches
+  [-22.5,  -0.34,  2.5], [-22.5,  -0.34, -0.5],   // west fence, between benches
+  [-9.5,   -0.34,  2.5], [-9.5,   -0.34, -2.6],   // east fence, clear of entry gap
+  // West grove — outside park (x < -23), frames the park from behind
+  [-24.0, -0.34,  0.5], [-24.5, -0.34,  3.0], [-24.2, -0.34, -2.0],
+  [-25.5, -0.34,  1.5], [-24.8, -0.34,  5.5], [-25.0, -0.34, -3.5],
+  [-26.0, -0.34,  3.5], [-26.5, -0.34,  0.0],
   // Positive Z perimeter extension (z: 18-24)
   [-22.0, -0.3, 18.0], [22.0, -0.3, 18.4],
   [-24.0, -0.3, 20.0], [24.0, -0.3, 20.4],
@@ -181,8 +189,8 @@ export const treePositions: [number, number, number][] = [
   [-2.6, -0.38, 2.8], [2.4, -0.38, 3.2],
   [-5.8, -0.35, 4.8], [5.6, -0.35, 5.2],
   [-2.2, -0.36, 7.2], [2.0, -0.36, 7.6],
-  [-9.4, -0.34, 5.8], [9.2, -0.34, 6.2],
-  [-12.0, -0.34, 4.4], [11.8, -0.34, 4.8],
+  [9.2, -0.34, 6.2],
+  [11.8, -0.34, 4.8],
   [-6.6, -0.35, 8.8], [6.4, -0.35, 9.2],
   [-11.2, -0.34, 9.0], [11.0, -0.34, 9.4],
   [-3.6, -0.36, 11.2], [3.4, -0.36, 11.6],
@@ -193,7 +201,7 @@ export const treePositions: [number, number, number][] = [
   [-2.8, -0.38, 15.4], [2.6, -0.38, 15.8],
   [-9.8, -0.34, 15.2], [9.6, -0.34, 15.6],
   [-15.0, -0.34, 10.4], [14.8, -0.34, 10.8],
-  [-16.4, -0.34, 6.0], [16.2, -0.34, 6.4],
+  [16.2, -0.34, 6.4],
 ];
 
 export const rockPositions: [number, number, number, number][] = [
@@ -205,7 +213,7 @@ export const rockPositions: [number, number, number, number][] = [
   [-4.4, -0.63, -14.9, 0.44], [4.8, -0.63, -15.2, 0.42],
   [0.3, -0.62, -17.4, 0.52], [-9.0, -0.64, -11.7, 0.34],
   [8.7, -0.64, -13.6, 0.36], [-10.2, -0.64, -14.4, 0.4],
-  [9.9, -0.64, -15.8, 0.45], [-12.7, -0.64, -4.7, 0.38],
+  [9.9, -0.64, -15.8, 0.45],
   [12.6, -0.64, -5.2, 0.34], [-13.2, -0.64, -17.6, 0.42],
   [13.1, -0.64, -17.8, 0.4],
   // Mountain zone rocks (z: -22 to -35) — larger boulders near bases
@@ -227,6 +235,9 @@ export const rockPositions: [number, number, number, number][] = [
   [-1.6, -0.60, -26.0, 0.55], [-1.8, -0.60, -28.8, 0.62],
   [-3.8, -0.60, -31.2, 0.70], [-11.2, -0.60, -31.6, 0.65],
   [-13.4, -0.60, -26.6, 0.72], [-13.2, -0.60, -23.6, 0.58],
+  // Cave entrance rubble — framing the mouth (front + west side, clear of river)
+  [-8.6, -0.60, -22.0, 0.55], [-9.6, -0.60, -22.4, 0.62],
+  [-10.2, -0.60, -22.9, 0.50], [-9.0, -0.60, -22.7, 0.58],
   // Sanctuary rocks — smaller stones around [-18, -24]
   [-23.1, -0.62, -22.3, 0.48], [-13.3, -0.62, -22.5, 0.44],
   [-23.7, -0.62, -25.3, 0.52], [-12.7, -0.62, -25.5, 0.50],
@@ -245,29 +256,38 @@ export const rockPositions: [number, number, number, number][] = [
   [-35.0, -0.62, -6.0, 0.58], [35.0, -0.62, -6.4, 0.55],
   [-33.0, -0.62, 4.0, 0.50], [33.0, -0.62, 4.4, 0.48],
   [-31.0, -0.62, 10.0, 0.52], [31.0, -0.62, 10.4, 0.50],
+  // West grove rocks — outside park fence (x < -23)
+  [-24.2, -0.62,  1.2, 0.50], [-24.8, -0.62,  3.8, 0.46],
+  [-25.5, -0.62, -1.5, 0.44], [-25.0, -0.62,  5.2, 0.52],
+  [-26.2, -0.62,  2.4, 0.56], [-24.5, -0.62, -3.0, 0.48],
   // Lower town rocks (positive Z)
   [-3.2, -0.62, 3.8, 0.36], [3.0, -0.64, 4.4, 0.32],
-  [-6.4, -0.63, 7.8, 0.42], [6.2, -0.64, 8.2, 0.38],
-  [-10.8, -0.62, 6.6, 0.40], [10.6, -0.64, 7.0, 0.36],
+  [10.6, -0.64, 7.0, 0.36],
   [-5.2, -0.63, 12.0, 0.44], [5.0, -0.64, 12.4, 0.38],
   [-13.0, -0.63, 11.4, 0.46], [12.8, -0.64, 11.8, 0.40],
 ];
 
 export const lanternPositions: [number, number, number][] = [
-  // Upper town path (negative Z)
-  [1.2, -0.72, -0.8], [-1.2, -0.72, -2.5], [1.1, -0.72, -4.8],
-  [-1.1, -0.72, -9.5], [1.0, -0.72, -9.8], [-1.0, -0.72, -12.2],
-  [1.2, -0.72, -14.9], [3.4, -0.72, -16.1], [-3.3, -0.72, -16.4],
-  [6.2, -0.72, -11.8], [-6.2, -0.72, -11.7], [9.2, -0.72, -7.2],
-  [-9.2, -0.72, -7.0],
-  // Lower town path (positive Z) — continues the alternating pattern
-  [-1.2, -0.72, 2.5], [1.1, -0.72, 4.8],
-  [-1.0, -0.72, 7.4], [1.2, -0.72, 10.0],
-  [-1.1, -0.72, 12.6], [1.0, -0.72, 15.2],
-  // Cross-street corners
-  [-8.0, -0.72, 5.2], [8.0, -0.72, 5.2],
-  [-8.0, -0.72, 10.2], [8.0, -0.72, 10.2],
-  [-8.0, -0.72, 15.4], [8.0, -0.72, 15.4],
+  // ── Main N-S path — alternating edges (x=±1.5), spaced, skipping intersections ──
+  // Upper (negative Z)
+  [1.5, -0.72, -1.0], [-1.5, -0.72, -3.5], [1.5, -0.72, -6.8],
+  [-1.5, -0.72, -8.2], [1.5, -0.72, -11.2], [-1.5, -0.72, -13.6],
+  [1.5, -0.72, -15.8], [-1.5, -0.72, -19.2], [1.5, -0.72, -21.5],
+  // Lower (positive Z) — skip z≈5/10/15 cross-street intersections
+  [-1.5, -0.72, 2.5], [1.5, -0.72, 7.5], [-1.5, -0.72, 12.5],
+  [1.5, -0.72, 17.8], [-1.5, -0.72, 20.5],
+  // ── Cross street z=5 — north curb (z=6.3), clear of south sidewalk + car lanes ──
+  [-9.5, -0.72, 6.3], [-4.5, -0.72, 6.3], [4.5, -0.72, 6.3], [9.5, -0.72, 6.3],
+  // ── Cross street z=10 — south curb (z=8.7), clear of north sidewalk ──
+  [-9.5, -0.72, 8.7], [-4.5, -0.72, 8.7], [4.5, -0.72, 8.7], [9.5, -0.72, 8.7],
+  // ── Upper-right branch [6.9,-7.3] — inner (west) edge x=5.9 ──
+  [5.9, -0.72, -4.0], [5.9, -0.72, -9.0], [5.9, -0.72, -13.5],
+  // ── Lower-right branch [7.5,7.5] — west edge x=6.5 (peds walk east x=8.7) ──
+  [6.5, -0.72, 5.0], [6.5, -0.72, 9.5], [6.5, -0.72, 13.0],
+  // ── Lower-left branch [-7.5,7.5] — east edge x=-6.5 (peds walk west x=-8.7) ──
+  [-6.5, -0.72, 9.5], [-6.5, -0.72, 13.0],
+  // ── Summit branch [9.6,-12.4] — east edge, lights the road up to the viewpoint ──
+  [10.4, -0.72, -8.5], [10.4, -0.72, -12.5], [10.4, -0.72, -16.0],
 ];
 
 export const sidePathSegments: [number, number, number, number, number, number][] = [
@@ -286,11 +306,12 @@ export const sidePathSegments: [number, number, number, number, number, number][
   [7.5, -0.778, 7.5, 2.0, 12.0, -0.04],
   [-10.5, -0.778, 12.0, 1.8, 8.0, 0],
   [10.5, -0.778, 12.0, 1.8, 8.0, 0],
+  // West street — E-W, connects main path (x=0) to dog park entry (x=-9)
+  [-5.5, -0.778, 1.0, 2.0, 11.0, 1.5708],
 ];
 
 export const lakePositions: [number, number, number, number, number, number][] = [
   [-5.5, -0.76, 0.5, 5.0, 4.0, 0],
-  [-14.2, -0.758, -0.8, 5.6, 3.8, 0.12],
   [14.0, -0.758, -1.2, 5.8, 4.0, -0.16],
   [-14.8, -0.758, -14.2, 6.2, 4.4, 0.1],
   [14.6, -0.758, -15.4, 6.0, 4.2, -0.14],
@@ -299,17 +320,21 @@ export const lakePositions: [number, number, number, number, number, number][] =
 
 export const shrubPositions: [number, number, number, number][] = [
   // Upper town shrubs
-  [-11.4, -0.75, -2.2, 0.78], [11.1, -0.75, -2.5, 0.72],
+  [11.1, -0.75, -2.5, 0.72],
+  // Dog park shrubs — clear of equipment, benches, trees, paths
+  [-17.5, -0.75, 4.5, 0.62], [-20.5, -0.75, 2.5, 0.58],
   [-13.5, -0.75, -10.4, 0.84], [13.3, -0.75, -11.2, 0.8],
   [-10.8, -0.75, -17.1, 0.76], [10.6, -0.75, -17.4, 0.78],
   // Lower town shrubs (positive Z)
-  [-12.4, -0.75, 3.8, 0.80], [12.2, -0.75, 4.2, 0.76],
+  [12.2, -0.75, 4.2, 0.76],
   [-14.8, -0.75, 8.4, 0.82], [14.6, -0.75, 8.8, 0.78],
   [-12.6, -0.75, 14.0, 0.80], [12.4, -0.75, 14.4, 0.76],
   // Cave of Projects surroundings — cave center: [-7, -26]
   [-11.0, -0.75, -22.5, 0.82], [-4.0, -0.75, -22.8, 0.76],
   [-2.8, -0.75, -27.0, 0.80], [-11.5, -0.75, -27.4, 0.84],
   [-3.5, -0.75, -30.0, 0.78], [-10.8, -0.75, -30.2, 0.80],
+  // Cave entrance brush — framing the mouth (front + west side)
+  [-8.4, -0.75, -22.6, 0.68], [-9.8, -0.75, -23.2, 0.62], [-10.2, -0.75, -22.3, 0.58],
   // Sanctuary surroundings — sanctuary center: [-18, -24]
   [-22.0, -0.75, -21.7, 0.82], [-14.3, -0.75, -21.9, 0.76],
   [-22.3, -0.75, -26.3, 0.80], [-14.0, -0.75, -26.5, 0.84],
@@ -319,6 +344,11 @@ export const shrubPositions: [number, number, number, number][] = [
 // cave: spiritual/mysterious (purples, blues, gold)
 // sanctuary: warm/golden (ambers, soft pinks, white)
 export const flowerPositions: [number, number, number, string][] = [
+  // West grove flowers — behind dog park, warm/nature colors
+  [-16.5, -0.72,  3.5, "#f0a0c0"], [-17.5, -0.72,  1.5, "#f5c842"],
+  [-16.0, -0.72, -1.2, "#e8806a"], [-19.2, -0.72,  2.5, "#c0e060"],
+  [-20.0, -0.72,  0.8, "#f0a0c0"], [-18.8, -0.72, -0.5, "#f5c842"],
+  [-21.0, -0.72,  2.4, "#9070e0"], [-17.0, -0.72,  4.2, "#7ec8f5"],
   // Cave of Projects — ring around [-7, -26], radius 4-8
   [-10.2, -0.72, -23.0, "#b084f0"], [-4.8, -0.72, -22.6, "#7ec8f5"],
   [-2.0, -0.72, -25.2, "#c084e0"], [-2.4, -0.72, -28.0, "#f5c842"],
@@ -359,7 +389,11 @@ export function isInsideMountain(x: number, z: number, padding = 0): boolean {
   return mountainFootprints.some(([mx, mz, radius]) => Math.hypot(x - mx, z - mz) < radius + padding);
 }
 
+// Two-story summit lookout cabin (not in cabinPositions — rendered directly)
+export const SUMMIT_CABIN: [number, number] = [12.0, -13.8];
+
 export function isNearCabin(x: number, z: number, padding = 0): boolean {
+  if (Math.hypot(x - SUMMIT_CABIN[0], z - SUMMIT_CABIN[1]) < 1.6 + padding) return true;
   return cabinPositions.some(([cx, , cz, scale]) => Math.hypot(x - cx, z - cz) < 1.2 * scale + padding);
 }
 
@@ -372,6 +406,12 @@ export function isNearLake(x: number, z: number, padding = 0): boolean {
 // Single stone bridge at [-6.2, z=-10.2], deck 5.0×1.8
 export function isNearBridge(x: number, z: number, padding = 0): boolean {
   return Math.abs(x - (-6.2)) < 2.8 + padding && Math.abs(z - (-10.2)) < 1.4 + padding;
+}
+
+// Dog park enclosure — center [-16, 1], half-extents 7×6 (x -23..-9, z -5..7)
+// Used to keep loose rocks/shrubs out of the managed park interior.
+export function isInDogPark(x: number, z: number, padding = 0): boolean {
+  return x > -23 - padding && x < -9 + padding && z > -5 - padding && z < 7 + padding;
 }
 
 // Returns true if (x, z) falls on any road surface (main path or side/branch paths).
@@ -413,7 +453,9 @@ export const safeRockPositions = rockPositions.filter(
     !isNearCabin(x, z, 0.7) &&
     !isNearRiver(x, z, 0.4) &&
     !isNearLake(x, z, 0.5) &&
-    !isNearBridge(x, z, 0.4),
+    !isNearBridge(x, z, 0.4) &&
+    !isOnPath(x, z, 0.3) &&
+    !isInDogPark(x, z, 0.5),
 );
 
 export const safeShrubPositions = shrubPositions.filter(

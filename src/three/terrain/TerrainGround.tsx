@@ -39,11 +39,16 @@ export default function TerrainGround() {
         );
       })}
 
-      {/* Lakes — animated-looking with slight transparency */}
+      {/* Lakes — flattened dodecahedra, rounded and sunk flush into the terrain */}
       {safeLakePositions.map(([x, y, z, width, length, rotationY], i) => (
-        <mesh key={`lake-${i}`} rotation={[-Math.PI / 2, rotationY, 0]} position={[x, y, z]}>
-          <planeGeometry args={[width, length, 1, 1]} />
-          <meshToonMaterial color="#5aaed4" gradientMap={gradientMap} transparent opacity={0.82} />
+        <mesh
+          key={`lake-${i}`}
+          position={[x, y - 0.3, z]}
+          rotation={[0, rotationY, 0]}
+          scale={[width * 0.5, 0.32, length * 0.5]}
+        >
+          <dodecahedronGeometry args={[1, 0]} />
+          <meshToonMaterial color="#5aaed4" gradientMap={gradientMap} transparent opacity={0.85} />
         </mesh>
       ))}
     </group>

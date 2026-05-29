@@ -85,11 +85,6 @@ export default function GuidanceEffects({ sanctuaryActivated }: GuidanceEffectsP
         decay={2}
       />
 
-      {/* Summit glow — sunrise light at the top of the mountain, always visible */}
-      <mesh position={[0, 8, -16]} rotation={[0, 0, 0]}>
-        <coneGeometry args={[2.5, 14, 14, 1, true]} />
-        <meshBasicMaterial color="#FFA040" transparent opacity={0.04} depthWrite={false} />
-      </mesh>
     </group>
   );
 }

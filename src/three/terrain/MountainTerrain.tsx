@@ -10,16 +10,16 @@ import TerrainBridges from "./TerrainBridges";
 import CaveOfProjects from "./CaveOfProjects";
 import DogPark from "./DogPark";
 
-export default function MountainTerrain() {
+export default function MountainTerrain({ isDay = true }: { isDay?: boolean }) {
   return (
     <group>
       <TerrainGround />
       <TerrainMountains />
       <TerrainFlora />
-      <TerrainStructures />
+      <TerrainStructures isDay={isDay} />
       <TerrainBridges />
       <CaveOfProjects />
-      <DogPark />
+      <DogPark isDay={isDay} />
     </group>
   );
 }

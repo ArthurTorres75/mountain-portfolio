@@ -33,6 +33,24 @@ export default function CloudLayer() {
         <Cloud position={[-16, 2.2, -36]} seed={18} segments={16} bounds={[12, 1.8, 5]} volume={4.5} color="#b4c8d4" opacity={0.36} fade={20} />
         <Cloud position={[16,  2.0, -34]} seed={19} segments={14} bounds={[11, 1.6, 5]} volume={4.0} color="#bcccd8" opacity={0.33} fade={18} />
 
+        {/* Horizon mist — negative X side, thick white/dusty wall */}
+        <Cloud position={[-22,  0.8,  0]}  seed={50} segments={35} bounds={[6, 4.0, 46]} volume={13}  color="#eaf2f8" opacity={0.96} fade={6}  />
+        <Cloud position={[-22,  0.5, -18]} seed={51} segments={30} bounds={[6, 3.5, 34]} volume={12}  color="#e8f0f6" opacity={0.94} fade={5}  />
+        <Cloud position={[-22,  0.5,  18]} seed={52} segments={30} bounds={[6, 3.5, 32]} volume={12}  color="#eaf2f8" opacity={0.94} fade={5}  />
+        <Cloud position={[-24,  0.6, -34]} seed={53} segments={26} bounds={[6, 3.2, 26]} volume={11}  color="#e6eef4" opacity={0.90} fade={5}  />
+        <Cloud position={[-24,  0.6,  32]} seed={54} segments={26} bounds={[6, 3.2, 24]} volume={11}  color="#e6eef4" opacity={0.90} fade={5}  />
+        {/* Second layer — higher, blends into sky */}
+        <Cloud position={[-22,  5.0,  0]}  seed={55} segments={30} bounds={[6, 4.0, 48]} volume={12}  color="#dce8f2" opacity={0.82} fade={8}  />
+        <Cloud position={[-24,  4.5, -20]} seed={56} segments={26} bounds={[6, 3.5, 30]} volume={10}  color="#d8e4f0" opacity={0.78} fade={7}  />
+        <Cloud position={[-24,  4.5,  20]} seed={57} segments={26} bounds={[6, 3.5, 28]} volume={10}  color="#dae6f2" opacity={0.78} fade={7}  />
+        {/* Positive X horizon — thick warm white/golden dust */}
+        <Cloud position={[22,   0.8,  0]}  seed={60} segments={35} bounds={[6, 4.0, 44]} volume={13}  color="#faf4ec" opacity={0.94} fade={6}  />
+        <Cloud position={[22,   0.5, -16]} seed={61} segments={30} bounds={[6, 3.5, 32]} volume={12}  color="#f8f0e8" opacity={0.92} fade={5}  />
+        <Cloud position={[22,   0.5,  16]} seed={62} segments={30} bounds={[6, 3.5, 30]} volume={12}  color="#faf2e8" opacity={0.92} fade={5}  />
+        <Cloud position={[24,   0.6, -30]} seed={63} segments={26} bounds={[6, 3.2, 24]} volume={11}  color="#f6ede2" opacity={0.88} fade={5}  />
+        <Cloud position={[24,   0.6,  28]} seed={64} segments={26} bounds={[6, 3.2, 22]} volume={11}  color="#f6ede2" opacity={0.88} fade={5}  />
+        <Cloud position={[22,   5.0,  0]}  seed={65} segments={30} bounds={[6, 4.0, 46]} volume={12}  color="#f2e8d8" opacity={0.80} fade={8}  />
+
         {/* Hero spawn clouds — player starts above these */}
         <Cloud position={[-8, 11, 4]}   seed={9}  segments={16} bounds={[12, 2, 5]} volume={6}   color="#dce8f4" opacity={0.50} fade={28} />
         <Cloud position={[10, 10, 6]}   seed={10} segments={14} bounds={[10, 2, 4]} volume={5}   color="#d8e4f0" opacity={0.46} fade={26} />
