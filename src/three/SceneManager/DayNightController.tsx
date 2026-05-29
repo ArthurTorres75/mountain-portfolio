@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ElementRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
 import { Vector3, Fog, AmbientLight, HemisphereLight, DirectionalLight } from "three";
@@ -15,7 +15,7 @@ interface Props {
 export default function DayNightController({ onDayChange }: Props) {
   const { scene } = useThree();
 
-  const skyRef     = useRef<any>(null);
+  const skyRef     = useRef<ElementRef<typeof Sky>>(null);
   const ambRef     = useRef<AmbientLight>(null);
   const hemiRef    = useRef<HemisphereLight>(null);
   const dirRef     = useRef<DirectionalLight>(null);
