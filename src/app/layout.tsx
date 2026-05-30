@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Playfair_Display } from "next/font/google";
+import StationCanvasLoader from "@/components/StationCanvasLoader";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const playfairDisplay = Playfair_Display({
+  variable: "--font-serif",
   subsets: ["latin"],
 });
 
@@ -19,9 +25,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${playfairDisplay.variable} h-full antialiased`}
+    >
       <body suppressHydrationWarning className="min-h-full flex flex-col">
-        {children}
+        <StationCanvasLoader />
+        <div className="relative z-10 flex flex-col min-h-full">{children}</div>
       </body>
     </html>
   );

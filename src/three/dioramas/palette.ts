@@ -1,0 +1,18 @@
+export const PAL = {
+  grass: '#8bbf5a',
+  grassDark: '#6fa548',
+  dirt: '#c89a5b',
+  dirtDark: '#b0823f',
+  wood: '#9c6b3e',
+  woodDark: '#7c5430',
+  roof: '#5a3c26',
+  rock: '#9aa0a6',
+  rockDark: '#7c828a',
+  pine: '#3f8f54',
+  pineDark: '#2f6f41',
+  water: '#5fb6e6',
+  snow: '#f3f0ea',
+  gold: '#f6c24a',
+  fur: '#4a3526',
+  furLight: '#c9a36b',
+} as const
