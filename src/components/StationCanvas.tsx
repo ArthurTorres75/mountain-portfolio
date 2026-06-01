@@ -115,6 +115,17 @@ export default function StationCanvas() {
   const pathname = usePathname()
   const { activeStation, scrollProgress, theme } = useStationStore()
 
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "development") return;
+    const originalWarn = console.warn;
+    console.warn = (...args: unknown[]) => {
+      const [first] = args;
+      if (typeof first === "string" && first.includes("THREE.Clock: This module has been deprecated.")) return;
+      originalWarn(...args);
+    };
+    return () => { console.warn = originalWarn; };
+  }, []);
+
   const match = pathname?.match(/^\/station\/(.+)$/)
   const stationId = match ? match[1] : null
 
@@ -127,7 +138,7 @@ export default function StationCanvas() {
       <Canvas
         camera={{ position: [0, 4.8, 10.0], fov: 34 }}
         gl={{ alpha: true, antialias: true }}
-        shadows
+        shadows="percentage"
         style={{ background: 'transparent', width: '100%', height: '100%' }}
         aria-label={`3D diorama of ${displayId}`}
         role="img"
