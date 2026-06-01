@@ -52,6 +52,7 @@ function DioramaScene({ id, scrollProgress, theme }: DioramaSceneProps) {
 
     // Idle oscillation + bob
     groupRef.current.rotation.y = Math.sin(t * IDLE_SPEED) * 0.28 + mx * 0.25
+    groupRef.current.rotation.x = my * 0.15
     const bobY = Math.sin(t * 0.6) * 0.06
 
     // Scroll dock: hero position → dock position
