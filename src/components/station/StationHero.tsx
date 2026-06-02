@@ -112,12 +112,6 @@ export default function StationHero({ kicker, title, role, tagline }: StationHer
         <span className="hero-item scroll-hint mt-8">Scroll to explore</span>
       </div>
 
-      {/* Bottom gradient into content sheet */}
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
-        style={{ background: 'linear-gradient(to bottom, transparent, var(--st-bg))' }}
-        aria-hidden="true"
-      />
     </section>
   )
 }

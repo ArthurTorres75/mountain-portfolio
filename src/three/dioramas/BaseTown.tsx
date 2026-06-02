@@ -4,63 +4,7 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { getToonGradientMap } from '@/lib/toonGradient'
 import { PAL } from './palette'
-
-// Mirror of the world cabin (TerrainStructures) scaled to diorama size.
-// scale={0.45} keeps proportions identical — no mental math needed when
-// the world model changes.
-function Cabin({
-  position,
-  rotationY = 0,
-}: {
-  position: [number, number, number]
-  rotationY?: number
-}) {
-  const gm = getToonGradientMap()
-  return (
-    <group position={position} scale={0.45} rotation={[0, rotationY, 0]}>
-      {/* Stone foundation */}
-      <mesh position={[0, 0.06, 0]}>
-        <boxGeometry args={[1.72, 0.12, 1.42]} />
-        <meshToonMaterial color="#5c4a38" gradientMap={gm} />
-      </mesh>
-      {/* Walls */}
-      <mesh position={[0, 0.53, 0]}>
-        <boxGeometry args={[1.6, 0.95, 1.3]} />
-        <meshToonMaterial color={PAL.wood} gradientMap={gm} />
-      </mesh>
-      {/* Roof — PI/4 Y rotation aligns cone vertices with box corners */}
-      <mesh position={[0, 1.18, 0]} rotation={[0, Math.PI / 4, 0]}>
-        <coneGeometry args={[1.25, 0.85, 4]} />
-        <meshToonMaterial color={PAL.roof} gradientMap={gm} />
-      </mesh>
-      {/* Chimney */}
-      <mesh position={[0.3, 1.46, 0.1]}>
-        <boxGeometry args={[0.18, 0.72, 0.18]} />
-        <meshToonMaterial color="#6b5040" gradientMap={gm} />
-      </mesh>
-      {/* Door */}
-      <mesh position={[0, 0.37, 0.67]}>
-        <boxGeometry args={[0.35, 0.58, 0.05]} />
-        <meshToonMaterial color="#3e2a18" gradientMap={gm} />
-      </mesh>
-      {/* Porch step */}
-      <mesh position={[0, 0.07, 0.82]}>
-        <boxGeometry args={[0.5, 0.07, 0.22]} />
-        <meshToonMaterial color="#7a6252" gradientMap={gm} />
-      </mesh>
-      {/* Front window — warm glow */}
-      <mesh position={[0.52, 0.58, 0.66]}>
-        <boxGeometry args={[0.32, 0.28, 0.04]} />
-        <meshStandardMaterial color="#ffe09a" emissive="#ffc040" emissiveIntensity={0.8} />
-      </mesh>
-      {/* Side window */}
-      <mesh position={[0.81, 0.58, 0.1]}>
-        <boxGeometry args={[0.04, 0.28, 0.28]} />
-        <meshStandardMaterial color="#ffe09a" emissive="#ffc040" emissiveIntensity={0.8} />
-      </mesh>
-    </group>
-  )
-}
+import DioramaCabin from './DioramaCabin'
 
 function Pine({ position }: { position: [number, number, number] }) {
   const gm = getToonGradientMap()
@@ -162,7 +106,7 @@ export default function BaseTownDiorama() {
 
       {/* Cabins — Y=0 so foundation sits flush on ground */}
       {cabinData.map(({ pos, rot }, i) => (
-        <Cabin key={i} position={pos} rotationY={rot} />
+        <DioramaCabin key={i} position={pos} rotationY={rot} />
       ))}
 
       {/* Pines */}

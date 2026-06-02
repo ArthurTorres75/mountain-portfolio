@@ -72,7 +72,7 @@ export default function ClimbingRoadDiorama() {
       </mesh>
 
       {/* Snow cap */}
-      <mesh position={[0, 2.0, 0]}>
+      <mesh position={[0, 1.75, 0]}>
         <coneGeometry args={[0.55, 0.9, 8]} />
         <meshToonMaterial color={PAL.snow} gradientMap={gm} />
       </mesh>
@@ -86,7 +86,7 @@ export default function ClimbingRoadDiorama() {
       ))}
 
       {/* Flag at the top */}
-      <group position={[0, 2.5, 0]}>
+      <group position={[0, 2.2, 0]}>
         <mesh position={[0, 0.25, 0]}>
           <cylinderGeometry args={[0.025, 0.025, 0.5, 6]} />
           <meshToonMaterial color={PAL.woodDark} gradientMap={gm} />

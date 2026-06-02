@@ -55,7 +55,7 @@ export default function StationPageClient({ station }: StationPageClientProps) {
 
   return (
     <div data-theme={theme} className="relative min-h-screen" style={{ color: 'var(--st-text)' }}>
-      <StationHeader name={station.name} index={station.index} />
+      <StationHeader id={station.id} name={station.name} index={station.index} />
 
       {/* Hero — transparent; diorama canvas shows through */}
       <StationHero
@@ -67,7 +67,7 @@ export default function StationPageClient({ station }: StationPageClientProps) {
 
       {/* Content sheet — rises over the canvas with rounded top + shadow */}
       <div
-        className="relative z-[4]"
+        className="relative z-4"
         style={{
           background: 'var(--st-bg)',
           borderTopLeftRadius: '36px',

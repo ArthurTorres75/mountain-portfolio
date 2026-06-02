@@ -6,7 +6,7 @@ export const STATIONS: Station[] = [
     index: 1,
     name: 'Base Town',
     kicker: 'Where the journey begins',
-    title: 'Arthur',
+    title: 'Arthur Torres',
     role: 'Full Stack Engineer',
     tagline:
       'Building resilient systems with thoughtful product execution and long-term maintainability.',

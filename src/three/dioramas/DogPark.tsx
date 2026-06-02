@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { getToonGradientMap } from '@/lib/toonGradient'
 import { PAL } from './palette'
+import { LaikaModel, KiraModel } from '@/three/characters/CharacterModels'
 
 function RoundTree({ position }: { position: [number, number, number] }) {
   const gm = getToonGradientMap()
@@ -37,43 +38,6 @@ function Pine({ position }: { position: [number, number, number] }) {
   )
 }
 
-function Dog({
-  position,
-  color,
-  rotation,
-}: {
-  position: [number, number, number]
-  color: string
-  rotation?: number
-}) {
-  const gm = getToonGradientMap()
-  return (
-    <group position={position} rotation={[0, rotation ?? 0, 0]}>
-      {/* Body */}
-      <mesh position={[0, 0.2, 0]}>
-        <boxGeometry args={[0.35, 0.22, 0.52]} />
-        <meshToonMaterial color={color} gradientMap={gm} />
-      </mesh>
-      {/* Head */}
-      <mesh position={[0, 0.38, 0.2]}>
-        <boxGeometry args={[0.22, 0.2, 0.22]} />
-        <meshToonMaterial color={color} gradientMap={gm} />
-      </mesh>
-      {/* Tail */}
-      <mesh position={[0, 0.28, -0.26]} rotation={[0.6, 0, 0]}>
-        <cylinderGeometry args={[0.03, 0.05, 0.22, 5]} />
-        <meshToonMaterial color={color} gradientMap={gm} />
-      </mesh>
-      {/* Legs */}
-      {[[-0.1, -0.1], [0.1, -0.1], [-0.1, 0.14], [0.1, 0.14]].map(([lx, lz], i) => (
-        <mesh key={i} position={[lx, 0.08, lz]}>
-          <cylinderGeometry args={[0.04, 0.04, 0.18, 5]} />
-          <meshToonMaterial color={color} gradientMap={gm} />
-        </mesh>
-      ))}
-    </group>
-  )
-}
 
 export default function DogParkDiorama() {
   const groupRef = useRef<THREE.Group>(null)
@@ -132,9 +96,15 @@ export default function DogParkDiorama() {
         <meshToonMaterial color={PAL.wood} gradientMap={gm} />
       </mesh>
 
-      {/* Dogs */}
-      <Dog position={[-0.5, 0, 0.2]} color={PAL.fur} rotation={0.4} />
-      <Dog position={[0.6, 0, -0.3]} color={PAL.furLight} rotation={-0.6} />
+      {/* Laika — facing roughly toward camera, slight angle */}
+      <group position={[-0.5, 0, 0.2]} rotation={[0, -Math.PI / 2 + 0.3, 0]}>
+        <LaikaModel scale={0.9} />
+      </group>
+
+      {/* Kira — facing the other way, looking at Laika */}
+      <group position={[0.6, 0, -0.3]} rotation={[0, -Math.PI / 2 - 0.4, 0]}>
+        <KiraModel scale={0.9} />
+      </group>
 
       {/* Golden ball */}
       <mesh position={[0.1, 0.1, 0.8]}>

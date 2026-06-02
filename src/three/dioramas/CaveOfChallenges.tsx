@@ -62,21 +62,21 @@ export default function CaveOfChallengesDiorama() {
         <meshToonMaterial color={PAL.grassDark} gradientMap={gm} />
       </mesh>
 
-      {/* Cave mound — flattened hemisphere */}
-      <mesh position={[0, 0.4, 0]} scale={[1.8, 0.9, 1.6]}>
+      {/* Cave mound — flat face sits on ground (y=0) */}
+      <mesh position={[0, 0, 0]} scale={[1.8, 0.9, 1.6]}>
         <sphereGeometry args={[1.0, 10, 8, 0, Math.PI * 2, 0, Math.PI / 2]} />
         <meshToonMaterial color={PAL.rockDark} gradientMap={gm} side={THREE.DoubleSide} />
       </mesh>
 
-      {/* Cave mouth — dark opening */}
-      <mesh position={[0, 0.45, 0.95]}>
-        <sphereGeometry args={[0.55, 8, 6, 0, Math.PI * 2, 0, Math.PI / 2]} />
-        <meshToonMaterial color="#1a1a1a" gradientMap={gm} side={THREE.DoubleSide} />
+      {/* Cave mouth — at y=0.28 where mound front face z≈1.52 */}
+      <mesh position={[0, 0.10, 1.52]} rotation={[-Math.PI / 10, 0, 0]}>
+        <circleGeometry args={[0.45, 12]} />
+        <meshToonMaterial color="#111111" gradientMap={gm} side={THREE.DoubleSide} />
       </mesh>
 
-      {/* Cave arch */}
-      <mesh position={[0, 0.72, 1.0]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.5, 0.08, 6, 16, Math.PI]} />
+      {/* Cave arch — base at ground level, arc rises upward (∩) */}
+      <mesh position={[0, 0, 1.50]}>
+        <torusGeometry args={[0.54, 0.08, 6, 16, Math.PI]} />
         <meshToonMaterial color={PAL.rock} gradientMap={gm} />
       </mesh>
 

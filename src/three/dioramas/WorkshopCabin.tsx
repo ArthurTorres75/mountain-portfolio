@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { getToonGradientMap } from '@/lib/toonGradient'
 import { PAL } from './palette'
+import DioramaCabin from './DioramaCabin'
 
 function Pine({ position }: { position: [number, number, number] }) {
   const gm = getToonGradientMap()
@@ -71,16 +72,7 @@ export default function WorkshopCabinDiorama() {
       </mesh>
 
       {/* Main cabin */}
-      <group position={[-0.2, 0, -0.3]}>
-        <mesh position={[0, 0.7, 0]}>
-          <boxGeometry args={[2.2, 1.4, 1.9]} />
-          <meshToonMaterial color={PAL.wood} gradientMap={gm} />
-        </mesh>
-        <mesh position={[0, 1.6, 0]}>
-          <coneGeometry args={[1.6, 0.8, 4]} />
-          <meshToonMaterial color={PAL.roof} gradientMap={gm} />
-        </mesh>
-      </group>
+      <DioramaCabin position={[-0.2, 0, -0.3]} scale={1.4} />
 
       {/* Workbench */}
       <group position={[0.9, 0, 1.4]}>
@@ -104,17 +96,6 @@ export default function WorkshopCabinDiorama() {
         <meshToonMaterial color={PAL.woodDark} gradientMap={gm} />
       </mesh>
 
-      {/* Axe (handle + blade) */}
-      <group position={[-1.5, 0.32, 1.2]}>
-        <mesh rotation={[0, 0, Math.PI / 4]}>
-          <cylinderGeometry args={[0.03, 0.03, 0.5, 6]} />
-          <meshToonMaterial color={PAL.woodDark} gradientMap={gm} />
-        </mesh>
-        <mesh position={[0.18, 0.18, 0]}>
-          <boxGeometry args={[0.12, 0.18, 0.04]} />
-          <meshToonMaterial color={PAL.rock} gradientMap={gm} />
-        </mesh>
-      </group>
 
       {/* Pines */}
       <Pine position={[-2.4, 0, -0.8]} />
