@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import SceneViewport from "@/components/SceneViewport";
 import LoadingScreen from "@/components/LoadingScreen";
+import StationEntryPrompt from "@/components/StationEntryPrompt";
 import { useExperienceStore } from "@/store/useExperienceStore";
 import { SECTION, type Section, type WorldLocation } from "@/types";
 
@@ -77,11 +78,15 @@ export default function WorldExplorer() {
   const [nearestLocationId, setNearestLocationId] = useState<string | null>(null);
   const [sanctuaryActivated, setSanctuaryActivated] = useState(false);
   const [sceneReady, setSceneReady] = useState(false);
+  const [pendingStationId, setPendingStationId] = useState<string | null>(null);
 
   const setActiveSection = useExperienceStore((s) => s.setActiveSection);
 
   const selectedLocation = WORLD_LOCATIONS.find((l) => l.id === selectedLocationId) ?? WORLD_LOCATIONS[0];
   const nearestLocation = WORLD_LOCATIONS.find((l) => l.id === nearestLocationId) ?? null;
+  const pendingLocation = pendingStationId
+    ? WORLD_LOCATIONS.find((l) => l.id === pendingStationId) ?? null
+    : null;
 
   function activateSanctuary(locationId: string) {
     if (locationId === SECTION.SANCTUARY) setSanctuaryActivated(true);
@@ -91,7 +96,12 @@ export default function WorldExplorer() {
     setSelectedLocationId(locationId as WorldLocation["id"]);
     setActiveSection(locationId as Section);
     activateSanctuary(locationId);
+    setPendingStationId(locationId);
   }
+
+  const handleClosePrompt = useCallback(() => {
+    setPendingStationId(null);
+  }, []);
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-[#1a2e4a] lg:h-screen lg:overflow-hidden">
@@ -193,6 +203,14 @@ export default function WorldExplorer() {
       <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 rounded-full border border-white/20 bg-black/45 px-4 py-2 text-xs tracking-[0.18em] text-zinc-100/90 backdrop-blur lg:block lg:text-sm">
         WASD move · Mouse look · Shift sprint · ESC release mouse
       </div>
+
+      {pendingLocation ? (
+        <StationEntryPrompt
+          stationId={pendingLocation.id}
+          stationLabel={pendingLocation.label}
+          onClose={handleClosePrompt}
+        />
+      ) : null}
     </main>
   );
 }

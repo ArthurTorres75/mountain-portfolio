@@ -26,3 +26,63 @@ body {
   background: rgba(245, 200, 66, 0.35);
   color: #fffdf6;
 }
+
+/* Station page themes */
+[data-theme="journal"] {
+  --st-bg: #f5f0e8;
+  --st-text: #1a1510;
+  --st-muted: #5a5040;
+  --st-accent: #b07d2a;
+  --st-accent-soft: rgba(176, 125, 42, 0.12);
+  --st-border: rgba(26, 21, 16, 0.14);
+  --st-surface: rgba(26, 21, 16, 0.05);
+  --st-card: #ffffff;
+  --st-chip-bg: #efe7d8;
+  --st-line-soft: #e8e0d0;
+  --st-card-shadow: 0 14px 34px -22px rgba(60, 45, 20, 0.4);
+  --st-sheet-shadow: 0 -30px 60px -30px rgba(60, 45, 20, 0.18);
+}
+
+[data-theme="cinematic"] {
+  --st-bg: #0d0b08;
+  --st-text: #f0ebe0;
+  --st-muted: #8a7d6a;
+  --st-accent: #f6c24a;
+  --st-accent-soft: rgba(246, 194, 74, 0.14);
+  --st-border: rgba(240, 235, 224, 0.12);
+  --st-surface: rgba(240, 235, 224, 0.06);
+  --st-card: #221d16;
+  --st-chip-bg: rgba(246, 194, 74, 0.09);
+  --st-line-soft: rgba(255, 255, 255, 0.07);
+  --st-card-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.8);
+  --st-sheet-shadow: 0 -40px 80px -30px rgba(0, 0, 0, 0.7);
+}
+
+/* Body background syncs with station theme */
+body[data-theme="journal"] { background: #f5f0e8; }
+body[data-theme="cinematic"] { background: #0d0b08; }
+
+/* Scroll hint line animation */
+.scroll-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--st-muted);
+}
+.scroll-hint::after {
+  content: '';
+  width: 1px;
+  height: 28px;
+  background: currentColor;
+  animation: scrolldown 1.8s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes scrolldown {
+  0%, 100% { transform: scaleY(0.4); opacity: 0.4; }
+  50%       { transform: scaleY(1);   opacity: 1;   }
+}
