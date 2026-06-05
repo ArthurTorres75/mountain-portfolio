@@ -49,11 +49,30 @@ export const STATIONS: Station[] = [
       {
         type: 'chips',
         groups: [
-          { label: 'Frontend', items: ['React', 'Angular', 'Next.js', 'TypeScript'] },
-          { label: 'Backend', items: ['NestJS', 'Node.js'] },
-          { label: 'Data', items: ['MongoDB', 'PostgreSQL'] },
-          { label: 'Cloud', items: ['AWS'] },
-          { label: 'Foundation', items: ['Clean Architecture'] },
+          {
+            label: 'Frontend',
+            items: ['React', 'Angular', 'Vue 3', 'Next.js', 'TypeScript', 'Tailwind CSS', 'MUI', 'shadcn/ui', 'Three.js', 'GSAP'],
+          },
+          {
+            label: 'Backend',
+            items: ['NestJS', 'Node.js', 'Express.js', 'Laravel'],
+          },
+          {
+            label: 'Data',
+            items: ['MongoDB', 'PostgreSQL'],
+          },
+          {
+            label: 'Payments & Auth',
+            items: ['Stripe', 'PayPal', 'NextAuth.js', 'OAuth 2.0', 'JWT'],
+          },
+          {
+            label: 'Cloud & Infra',
+            items: ['AWS', 'Azure', 'Vercel', 'GitHub Actions', 'Terraform'],
+          },
+          {
+            label: 'Foundation',
+            items: ['Clean Architecture', 'Hexagonal Architecture', 'Atomic Design', 'TDD'],
+          },
         ],
       },
       {
@@ -118,16 +137,19 @@ export const STATIONS: Station[] = [
             title: 'Legacy Rescue',
             text: 'Stabilised an inherited codebase with no tests, no documentation, and growing technical debt. Introduced boundaries, coverage, and a path forward without a full rewrite.',
             tags: ['Refactor', 'Stability', 'TypeScript'],
+            // Add src when screenshot is ready: src: '/photos/projects/legacy-rescue.jpg'
           },
           {
             title: 'Greenfield System',
             text: 'Designed a new product from a blank canvas — architecture first, then implementation. Clean separation of concerns from day one.',
             tags: ['Next.js', 'NestJS', 'PostgreSQL'],
+            // Add src when screenshot is ready: src: '/photos/projects/greenfield.jpg'
           },
           {
             title: 'Reliability at Scale',
             text: 'Hardened a system that had to perform when it mattered most. Observability, caching, and graceful degradation built in from the start.',
             tags: ['AWS', 'Observability', 'Caching'],
+            // Add src when screenshot is ready: src: '/photos/projects/reliability.jpg'
           },
         ],
       },
@@ -154,8 +176,11 @@ export const STATIONS: Station[] = [
       {
         type: 'gallery',
         items: [
+          // Add src when photo is ready: src: '/photos/family/family.jpg'
           { label: 'Family photo', caption: 'Arthur & family' },
+          // Add src when photo is ready: src: '/photos/family/laika.jpg'
           { label: 'Laika', caption: 'The good dog' },
+          // Add src when photo is ready: src: '/photos/family/kira.jpg'
           { label: 'Kira', caption: 'The other good dog' },
         ],
       },
