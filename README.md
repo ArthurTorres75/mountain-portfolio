@@ -2,7 +2,25 @@
 
 > A cinematic 3D interactive portfolio — explore a mountain town to discover Arthur's career.
 
-**Live**: [Deployed on Vercel](https://mountain-portfolio.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-mountain--portfolio.vercel.app-black?style=for-the-badge&logo=vercel)](https://mountain-portfolio.vercel.app/)
+
+---
+
+![Mountain Portfolio Preview](./public/preview.png)
+
+---
+
+## Built With
+
+![Next.js](https://img.shields.io/badge/Next.js%2016-black?style=flat-square&logo=next.js)
+![React](https://img.shields.io/badge/React%2019-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript%205-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Three.js](https://img.shields.io/badge/Three.js-black?style=flat-square&logo=three.js)
+![React Three Fiber](https://img.shields.io/badge/@react--three%2Ffiber-black?style=flat-square&logo=three.js)
+![GSAP](https://img.shields.io/badge/GSAP%203-88CE02?style=flat-square&logo=greensock&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS%20v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-orange?style=flat-square)
+![Vercel](https://img.shields.io/badge/Deployed%20on%20Vercel-black?style=flat-square&logo=vercel)
 
 ---
 
@@ -35,21 +53,23 @@ Full world design, coordinates, and implementation status: **[WORLD_DESIGN.md](.
 
 ---
 
-## Tech Stack
+## Station Pages
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js (App Router) |
-| Language | TypeScript (strict) |
-| 3D Engine | React Three Fiber + Three.js |
-| 3D Helpers | @react-three/drei |
-| Animation | GSAP + @gsap/react |
-| State | Zustand |
-| Styling | Tailwind CSS v4 |
-| Post-FX | @react-three/postprocessing |
-| Testing | Vitest |
-| Deploy | Vercel |
-| Package manager | pnpm |
+Each world zone has a dedicated station page — a real Next.js route with scrollable content and a toon 3D diorama.
+
+| Route | Station | Content |
+|-------|---------|---------|
+| `/station/base-town` | Base Town | About — intro |
+| `/station/workshop-cabin` | Workshop Cabin | Skills — tech stack |
+| `/station/climbing-road` | Climbing Road | Experience — timeline |
+| `/station/cave-of-challenges` | Cave of Challenges | Projects |
+| `/station/dog-park` | Dog Park | Human side — family |
+| `/station/hidden-sanctuary` | Hidden Sanctuary | Faith — sanctuary |
+| `/station/summit-viewpoint` | Summit Viewpoint | Contact — links |
+
+**Architecture**: One `<Canvas>` in `layout.tsx`, persistent across all routes. The diorama cross-fades between stations. Station pages are real HTML — SEO indexable, recruiter-readable.
+
+**Navigation**: Click a golden marker in the world → cinematic GSAP zoom → route transition → station page.
 
 ---
 
@@ -99,38 +119,6 @@ src/
 
 ---
 
-## Station Pages
-
-Each world zone has a dedicated station page — a real Next.js route with scrollable content and a toon 3D diorama.
-
-| Route | Station | Content |
-|-------|---------|---------|
-| `/station/base-town` | Base Town | About — intro |
-| `/station/workshop-cabin` | Workshop Cabin | Skills — tech stack |
-| `/station/climbing-road` | Climbing Road | Experience — timeline |
-| `/station/cave-of-challenges` | Cave of Challenges | Projects |
-| `/station/dog-park` | Dog Park | Human side — family |
-| `/station/hidden-sanctuary` | Hidden Sanctuary | Faith — sanctuary |
-| `/station/summit-viewpoint` | Summit Viewpoint | Contact — links |
-
-**Architecture**: One `<Canvas>` in `layout.tsx`, persistent across all routes. The diorama cross-fades between stations. Station pages are real HTML — SEO indexable, recruiter-readable.
-
-**Navigation**: Click a golden marker in the world → cinematic GSAP zoom → route transition → station page.
-
----
-
-## World Source of Truth
-
-**`WORLD_DESIGN.md`** is the authoritative document for this project. Before adding any 3D element, NPC, zone, or visual effect:
-
-1. Check if it is documented there
-2. If not, document it first, then implement
-3. After implementing, update the **Registro de Cambios** table in that file
-
-No element should exist in code without a corresponding entry in `WORLD_DESIGN.md`.
-
----
-
 ## Architecture Rules
 
 - `SceneManager` owns the R3F `<Canvas>` — one per page, never nested
@@ -143,9 +131,21 @@ No element should exist in code without a corresponding entry in `WORLD_DESIGN.m
 
 ---
 
+## Characters
+
+| Character | Role |
+|-----------|------|
+| Arthur | Main avatar — white polo, developer |
+| Laika | Companion dog |
+| Kira | Companion dog |
+| Wife | NPC at the Dog Park |
+| GOD | Light-being NPC at the Sanctuary |
+
+---
+
 ## CI/CD
 
-GitHub Actions pipeline (`.github/workflows/ci.yml`):
+GitHub Actions pipeline:
 
 1. **Lint** — ESLint zero warnings
 2. **Type-check** — `tsc --noEmit`
@@ -157,18 +157,6 @@ Branch strategy:
 - `main` → production (Vercel auto-deploy)
 - `dev` / `develop` → staging + Vercel preview
 - Feature branches: `feat/`, `fix/`, `chore/`
-
----
-
-## Characters
-
-| Character | Role |
-|-----------|------|
-| Arthur | Main avatar — white polo, developer |
-| Laika | Companion dog |
-| Kira | Companion dog |
-| Wife | NPC at the Dog Park |
-| GOD | Light-being NPC at the Sanctuary (designed, not yet implemented) |
 
 ---
 
