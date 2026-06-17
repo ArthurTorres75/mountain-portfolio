@@ -2,7 +2,11 @@
   "name": "mountain-portfolio",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
+    "prepare": "husky",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -29,7 +33,8 @@
   "pnpm": {
     "overrides": {
       "postcss": ">=8.5.10",
-      "vite": ">=8.0.16"
+      "vite": ">=8.0.16",
+      "js-yaml": ">=4.2.0"
     }
   },
   "devDependencies": {
@@ -37,7 +42,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.184.1",
@@ -45,6 +50,7 @@
     "@vitest/coverage-v8": "^4.1.5",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "husky": "^9.1.7",
     "jsdom": "^29.1.1",
     "pngjs": "^7.0.0",
     "tailwindcss": "^4",
