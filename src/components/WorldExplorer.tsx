@@ -12,9 +12,9 @@ const WORLD_LOCATIONS: WorldLocation[] = [
   {
     id: SECTION.ABOUT,
     label: "Base Town",
-    title: "Arthur, Full Stack Engineer",
+    title: "Arthur Torres, Computer Engineer",
     description:
-      "Building resilient systems with thoughtful product execution and long-term maintainability.",
+      "Computer Engineer with 8+ years building web applications that run fast, hold up under load, and grow with the business. I work with method — and when no path exists, I design one.",
     worldPosition: [0, 0.18, 2.4],
   },
   {
