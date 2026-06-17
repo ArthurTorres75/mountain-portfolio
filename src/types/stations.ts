@@ -40,6 +40,8 @@ export interface ProjectItem {
   title: string
   text: string
   tags: string[]
+  src?: string
+  href?: string
 }
 
 export interface ProjectsBlock {
@@ -50,6 +52,7 @@ export interface ProjectsBlock {
 export interface GalleryItem {
   label: string
   caption: string
+  src?: string
 }
 
 export interface GalleryBlock {
