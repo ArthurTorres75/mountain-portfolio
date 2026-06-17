@@ -51,15 +51,15 @@ export const STATIONS: Station[] = [
         groups: [
           {
             label: 'Frontend',
-            items: ['React', 'Angular', 'Vue 3', 'Next.js', 'TypeScript', 'Tailwind CSS', 'MUI', 'shadcn/ui', 'Three.js', 'GSAP'],
+            items: ['React', 'Angular', 'Vue 3', 'Next.js', 'TypeScript', 'RxJS', 'Tailwind CSS', 'MUI', 'shadcn/ui', 'Three.js', 'GSAP', 'Framer Motion', 'Redux Toolkit', 'Zustand', 'TanStack Query', 'React Hook Form'],
           },
           {
             label: 'Backend',
-            items: ['NestJS', 'Node.js', 'Express.js', 'Laravel'],
+            items: ['NestJS', 'Node.js', 'Express', 'Laravel', 'PHP', 'Prisma', 'Socket.io'],
           },
           {
             label: 'Data',
-            items: ['MongoDB', 'PostgreSQL'],
+            items: ['PostgreSQL', 'MySQL', 'MongoDB', 'Supabase', 'Redis'],
           },
           {
             label: 'Payments & Auth',
@@ -67,7 +67,15 @@ export const STATIONS: Station[] = [
           },
           {
             label: 'Cloud & Infra',
-            items: ['AWS', 'Azure', 'Vercel', 'GitHub Actions', 'Terraform'],
+            items: ['AWS', 'Azure', 'Vercel', 'Firebase', 'Docker', 'Terraform', 'GitHub Actions', 'Hostinger'],
+          },
+          {
+            label: 'Mobile',
+            items: ['React Native', 'Expo', 'Ionic'],
+          },
+          {
+            label: 'Tools',
+            items: ['Git', 'GitHub', 'GitLab', 'Jira', 'Figma', 'Vitest', 'ESLint', 'Vite', 'Webpack', 'pnpm'],
           },
           {
             label: 'Foundation',
@@ -77,7 +85,7 @@ export const STATIONS: Station[] = [
       },
       {
         type: 'prose',
-        text: 'Tools change. The craft does not. Architecture, testability, and maintainability are the constants.',
+        text: 'The framework changes with the problem — React, Angular, Vue, whichever fits. What stays the same is the foundation underneath: standard methodologies, solid principles, clean architecture, and the best practices each tool deserves. An engineer is not loyal to a framework — an engineer is loyal to solving the problem. Applying proven methods where they fit, and inventing the solution where they do not.',
       },
     ],
   },
@@ -134,22 +142,76 @@ export const STATIONS: Station[] = [
         type: 'projects',
         items: [
           {
-            title: 'Legacy Rescue',
-            text: 'Stabilised an inherited codebase with no tests, no documentation, and growing technical debt. Introduced boundaries, coverage, and a path forward without a full rewrite.',
-            tags: ['Refactor', 'Stability', 'TypeScript'],
-            // Add src when screenshot is ready: src: '/photos/projects/legacy-rescue.jpg'
+            title: 'Gmvykon — Corporate Website',
+            text: 'Corporate website built with Next.js, TypeScript, and Tailwind CSS, with content managed through Strapi CMS. Designed in Figma, deployed on Vercel, and developed with an AI-assisted workflow.',
+            tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Strapi', 'Vercel'],
+            href: 'https://www.gmvykon.com/',
           },
           {
-            title: 'Greenfield System',
-            text: 'Designed a new product from a blank canvas — architecture first, then implementation. Clean separation of concerns from day one.',
-            tags: ['Next.js', 'NestJS', 'PostgreSQL'],
-            // Add src when screenshot is ready: src: '/photos/projects/greenfield.jpg'
+            title: 'Chamco Digital — Web Platform with Admin Panel',
+            text: 'Full admin panel, SEO and Lighthouse optimization, CI/CD with GitHub Actions, deployment on Vercel, PostgreSQL database on Azure, email delivery via Microsoft Graph API, and image storage on Azure Blob Storage.',
+            tags: ['Next.js', 'PostgreSQL', 'Azure', 'Vercel'],
+            href: 'https://chamcodigital.com/',
           },
           {
-            title: 'Reliability at Scale',
-            text: 'Hardened a system that had to perform when it mattered most. Observability, caching, and graceful degradation built in from the start.',
-            tags: ['AWS', 'Observability', 'Caching'],
-            // Add src when screenshot is ready: src: '/photos/projects/reliability.jpg'
+            title: 'School SaaS — Personal Project',
+            text: 'Personal project I am building on my own: an educational SaaS for school management, focused on modern UX, administrative workflows, and continuous deployment on Vercel.',
+            tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Vercel'],
+            href: 'https://school-mauve-eight.vercel.app/',
+          },
+          {
+            title: 'Hacking HR — Scalable Event Platform',
+            text: 'Event management platform built with Next.js and a headless CMS, with API optimization, improved frontend performance, and deployment on AWS Amplify.',
+            tags: ['Next.js', 'TypeScript', 'Payload CMS', 'AWS Amplify'],
+            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
+          },
+          {
+            title: 'OtherWorld Gift — Inventory & Sales System',
+            text: 'Full-stack system with automated Excel/PDF reports, sales authorization, inventory management, cron jobs, and a cash module with bank transfers.',
+            tags: ['Next.js', 'NestJS', 'Prisma', 'MySQL'],
+            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
+          },
+          {
+            title: 'Speedy Delivery — Food Delivery Mobile App',
+            text: 'Food delivery mobile app developed with React Native and Expo, featuring a responsive UI and real-time order flow.',
+            tags: ['React Native', 'Expo', 'Tailwind CSS', 'TypeScript'],
+            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
+          },
+          {
+            title: 'PiggyBack Network — E-commerce Platform with Payments',
+            text: 'Frontend development for an e-commerce platform with Stripe and PayPal integration, performance optimization, and scalable AWS architecture.',
+            tags: ['Next.js', 'React', 'Stripe', 'PayPal'],
+            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
+          },
+          {
+            title: 'Little Taller — Client Frontend Suite',
+            text: 'Collection of frontend interfaces using React, TypeScript, Firebase, and Material UI, deployed on Vercel for customer-facing web products.',
+            tags: ['React', 'TypeScript', 'Firebase', 'Material UI'],
+            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
+          },
+          {
+            title: 'Montrix — Operational Dashboard with Maps',
+            text: 'Enterprise application using Angular, Angular Material, and Google Maps API for operational visualization, improved UX, and high performance.',
+            tags: ['Angular', 'Angular Material', 'Google Maps API', 'AWS'],
+            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
+          },
+          {
+            title: 'Cloudshim — Advanced Diagramming Tool',
+            text: 'Frontend platform with Angular and GoJS for complex diagramming, interactive D3.js charts, and responsive design for cloud environments.',
+            tags: ['Angular', 'GoJS', 'D3.js', 'TypeScript'],
+            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
+          },
+          {
+            title: 'Zippyttech — Operations Web Portal',
+            text: 'Frontend portal built with Angular and TypeScript, integrating Google Maps and responsive components for business operational workflows.',
+            tags: ['Angular', 'TypeScript', 'Google Maps API', 'SCSS'],
+            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
+          },
+          {
+            title: 'Escuela Luis Cáceres — Administrative System',
+            text: 'Web application for school administrative management and PDF certificate issuance, developed with PHP, MySQL, and JavaScript.',
+            tags: ['PHP', 'MySQL', 'JavaScript', 'XAMPP'],
+            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
           },
         ],
       },
@@ -241,12 +303,20 @@ export const STATIONS: Station[] = [
         type: 'links',
         heading: "Let's talk",
         items: [
-          { label: 'Upwork', handle: 'Hire me', href: '#' },
-          { label: 'GitHub', handle: '@arthurtorres', href: '#' },
+          {
+            label: 'Upwork',
+            handle: 'Hire me',
+            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
+          },
+          {
+            label: 'GitHub',
+            handle: '@arthurtorres75',
+            href: 'https://github.com/arthurtorres75',
+          },
           {
             label: 'LinkedIn',
             handle: 'in/arthur-torres',
-            href: 'https://www.linkedin.com/in/arthur-torres-dev/',
+            href: 'https://www.linkedin.com/in/arthur-torres-9b41a2184/',
           },
           {
             label: 'Email',
