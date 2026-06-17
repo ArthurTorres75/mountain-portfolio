@@ -1,0 +1,4 @@
+# Husky git hooks and shell scripts must use LF endings, even on Windows
+# checkouts — CRLF breaks POSIX shell execution.
+.husky/** text eol=lf
+*.sh text eol=lf
