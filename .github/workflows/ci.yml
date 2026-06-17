@@ -1,8 +1,11 @@
 name: CI
 
 on:
+  # Post-merge re-validation only — PRs are covered by pull_request below.
+  # Keeping push scoped to main avoids double runs when a PR head branch
+  # (e.g. development) is also pushed.
   push:
-    branches: [main, development]
+    branches: [main]
   pull_request:
     branches: [main, development]
 
