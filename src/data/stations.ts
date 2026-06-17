@@ -7,27 +7,35 @@ export const STATIONS: Station[] = [
     name: 'Base Town',
     kicker: 'Where the journey begins',
     title: 'Arthur Torres',
-    role: 'Full Stack Engineer',
+    role: 'Computer Engineer · Full Stack Engineer',
     tagline:
-      'Building resilient systems with thoughtful product execution and long-term maintainability.',
+      'Computer Engineer with 8+ years building web applications that run fast, hold up under load, and grow with the business.',
     map: { x: 51.7, y: 66 },
     blocks: [
       {
         type: 'prose',
         lead: true,
-        text: 'I design and ship software that is meant to last. Not just for the next sprint, but for the engineer who comes after me, and the product that has to scale after that.',
+        text: 'I am a Computer Engineer, and I approach every project with method: I understand the problem, measure, decide with criteria, and build solutions that are meant to last. And when no clear path exists, I design one.',
       },
       {
         type: 'pillars',
         items: [
+          { label: 'Method', note: 'measure, decide, build with criteria' },
           { label: 'Resilient', note: 'systems that hold under load' },
           { label: 'Maintainable', note: 'built for the next engineer' },
-          { label: 'Thoughtful', note: 'product over feature count' },
         ],
       },
       {
         type: 'prose',
-        text: 'Base Town is home base — the place every road on this map starts from. Simple, grounded, and built on solid foundations.',
+        text: 'The road here was never a straight line. I come from a humble family that taught me two things — to believe in God and to never give up. I fell for computing before university out of pure curiosity: tinkering with scripts, modding games, building my first website. That is how I taught myself HTML, CSS, JavaScript, PHP and SQL.',
+      },
+      {
+        type: 'prose',
+        text: 'Life took a detour — six years at Timberland, from the warehouse floor to store manager. It gave me discipline, people skills, and a real sense of what it means to lead a team. In 2018 I returned to my true path: software, first as a frontend developer, then full stack. The consistency, and the drive to do things right rather than merely fast, come from my faith — the foundation under everything I build.',
+      },
+      {
+        type: 'prose',
+        text: 'Base Town is home base — the place every road on this map starts from. Grounded, honest, and built on solid foundations.',
       },
     ],
   },
@@ -316,7 +324,7 @@ export const STATIONS: Station[] = [
           {
             label: 'LinkedIn',
             handle: 'in/arthur-torres',
-            href: 'https://www.linkedin.com/in/arthur-torres-9b41a2184/',
+            href: 'https://www.linkedin.com/in/arthur-torres-9b41a2184',
           },
           {
             label: 'Email',
