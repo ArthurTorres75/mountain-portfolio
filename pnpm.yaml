@@ -1,4 +1,0 @@
-overrides:
-  postcss: ">=8.5.10"
-  vite: ">=8.0.16"
-  js-yaml: ">=4.2.0"
