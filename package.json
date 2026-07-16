@@ -30,15 +30,6 @@
     "three": "^0.184.0",
     "zustand": "^5.0.13"
   },
-  "pnpm": {
-    "overrides": {
-      "postcss": ">=8.5.10",
-      "vite": ">=8.0.16",
-      "js-yaml": ">=4.2.0"
-    },
-    "onlyBuiltDependencies": ["sharp"],
-    "ignoredBuiltDependencies": ["canvas", "unrs-resolver"]
-  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
