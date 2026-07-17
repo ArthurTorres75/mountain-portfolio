@@ -13,7 +13,7 @@ interface StationState {
 
 export const useStationStore = create<StationState>((set) => ({
   activeStation: null,
-  theme: 'journal',
+  theme: 'cinematic',
   scrollProgress: 0,
   setActiveStation: (id) => set({ activeStation: id }),
   setTheme: (theme) => set({ theme }),
