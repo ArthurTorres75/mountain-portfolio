@@ -150,8 +150,8 @@ export const STATIONS: Station[] = [
         type: 'projects',
         items: [
           {
-            title: 'Gmvykon — Corporate Website',
-            text: 'Corporate website built with Next.js, TypeScript, and Tailwind CSS, with content managed through Strapi CMS. Designed in Figma, deployed on Vercel, and developed with an AI-assisted workflow.',
+            title: 'Fibotech — GMVYKON Corporate Website',
+            text: 'Corporate website delivered while working at Fibotech, built with Next.js, TypeScript, and Tailwind CSS, with content managed through Strapi CMS. Designed in Figma and deployed on Vercel.',
             tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Strapi', 'Vercel'],
             src: '/photos/projects/gmvykon.webp',
             href: 'https://www.gmvykon.com/',
@@ -165,8 +165,8 @@ export const STATIONS: Station[] = [
           },
           {
             title: 'School SaaS — Personal Project',
-            text: 'Personal project I am building on my own: an educational SaaS for school management, focused on modern UX, administrative workflows, and continuous deployment on Vercel.',
-            tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Vercel'],
+            text: 'Personal project I am building on my own: a multitenant educational SaaS designed for multiple schools, with an owner admin panel and separate roles for school directors, staff, students, and parents/guardians. Built with Next.js, NestJS, TypeScript, PostgreSQL on Neon, shadcn/ui, and deployed with Railway and Vercel.',
+            tags: ['Next.js', 'NestJS', 'TypeScript', 'PostgreSQL', 'Neon', 'shadcn/ui', 'Tailwind CSS', 'Railway', 'Vercel'],
             href: 'https://school-mauve-eight.vercel.app/',
           },
           {
@@ -177,19 +177,6 @@ export const STATIONS: Station[] = [
             href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
           },
           {
-            title: 'OtherWorld Gift — Inventory & Sales System',
-            text: 'Full-stack system with automated Excel/PDF reports, sales authorization, inventory management, cron jobs, and a cash module with bank transfers.',
-            tags: ['Next.js', 'NestJS', 'Prisma', 'MySQL'],
-            src: '/photos/projects/otherworld-gift.webp',
-            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
-          },
-          {
-            title: 'Speedy Delivery — Food Delivery Mobile App',
-            text: 'Food delivery mobile app developed with React Native and Expo, featuring a responsive UI and real-time order flow.',
-            tags: ['React Native', 'Expo', 'Tailwind CSS', 'TypeScript'],
-            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
-          },
-          {
             title: 'PiggyBack Network — E-commerce Platform with Payments',
             text: 'Frontend development for an e-commerce platform with Stripe and PayPal integration, performance optimization, and scalable AWS architecture.',
             tags: ['Next.js', 'React', 'Stripe', 'PayPal'],
@@ -197,29 +184,10 @@ export const STATIONS: Station[] = [
             href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
           },
           {
-            title: 'Little Taller — Client Frontend Suite',
-            text: 'Collection of frontend interfaces using React, TypeScript, Firebase, and Material UI, deployed on Vercel for customer-facing web products.',
-            tags: ['React', 'TypeScript', 'Firebase', 'Material UI'],
-            src: '/photos/projects/little-taller.webp',
-            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
-          },
-          {
-            title: 'Montrix — Operational Dashboard with Maps',
-            text: 'Enterprise application using Angular, Angular Material, and Google Maps API for operational visualization, improved UX, and high performance.',
-            tags: ['Angular', 'Angular Material', 'Google Maps API', 'AWS'],
-            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
-          },
-          {
             title: 'Cloudshim — Advanced Diagramming Tool',
             text: 'Frontend platform with Angular and GoJS for complex diagramming, interactive D3.js charts, and responsive design for cloud environments.',
             tags: ['Angular', 'GoJS', 'D3.js', 'TypeScript'],
             src: '/photos/projects/cloudshim.webp',
-            href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
-          },
-          {
-            title: 'Zippyttech — Operations Web Portal',
-            text: 'Frontend portal built with Angular and TypeScript, integrating Google Maps and responsive components for business operational workflows.',
-            tags: ['Angular', 'TypeScript', 'Google Maps API', 'SCSS'],
             href: 'https://www.upwork.com/freelancers/~0110023d7209510ffb?mp_source=share',
           },
         ],
