@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Billboard, Text } from "@react-three/drei";
+import { Html } from "@react-three/drei";
 import type * as THREE from "three";
 
 interface LocationMarker {
@@ -53,24 +53,22 @@ function MarkerGroup({ location, onEnterLocation }: MarkerGroupProps) {
         </mesh>
       </group>
 
-      <Billboard
-        position={[0, 0.72, 0]}
-        follow
-        lockX={false}
-        lockY={false}
-        lockZ={false}
-      >
-        <Text
-          fontSize={0.2}
-          color="#fff4d2"
-          anchorX="center"
-          anchorY="middle"
-          outlineColor="#251f13"
-          outlineWidth={0.016}
+      <Html position={[0, 0.72, 0]} center distanceFactor={10}>
+        <span
+          style={{
+            color: "#fff4d2",
+            fontSize: "1rem",
+            fontWeight: 600,
+            whiteSpace: "nowrap",
+            pointerEvents: "none",
+            userSelect: "none",
+            textShadow:
+              "-1px -1px 0 #251f13, 1px -1px 0 #251f13, -1px 1px 0 #251f13, 1px 1px 0 #251f13",
+          }}
         >
           {location.label}
-        </Text>
-      </Billboard>
+        </span>
+      </Html>
     </group>
   );
 }
