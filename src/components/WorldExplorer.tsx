@@ -137,13 +137,13 @@ export default function WorldExplorer() {
           </header>
 
           <a
-            href="https://arthurtorres75.github.io/portfolio/"
+            href="https://portfolio-three-ashen-72.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View Arthur Torres portfolio"
             className="self-start rounded-full border border-amber-300/40 bg-black/40 px-4 py-2 text-center text-sm font-semibold text-amber-200 backdrop-blur-md transition-colors hover:border-amber-300/70 hover:bg-amber-300/20 lg:flex-shrink-0"
           >
-            See Portfolio →
+            Prefer the Classic View? →
           </a>
         </div>
 
