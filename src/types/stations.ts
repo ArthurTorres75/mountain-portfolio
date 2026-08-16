@@ -29,6 +29,8 @@ export interface ChipsBlock {
 export interface TimelineItem {
   title: string
   text: string
+  period?: string
+  role?: string
 }
 
 export interface TimelineBlock {

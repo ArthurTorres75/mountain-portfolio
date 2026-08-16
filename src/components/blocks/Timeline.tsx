@@ -31,12 +31,20 @@ export default function Timeline({ items }: TimelineProps) {
 
           {/* Content */}
           <div>
-            <span className="font-mono text-xs font-semibold tracking-[0.1em] text-[var(--st-accent)]">
-              {String(i + 1).padStart(2, '0')}
-            </span>
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span className="font-mono text-xs font-semibold tracking-[0.1em] text-[var(--st-accent)]">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              {item.period && (
+                <span className="font-mono text-xs text-[var(--st-muted)]">{item.period}</span>
+              )}
+            </div>
             <h3 className="mt-1 font-[family-name:var(--font-serif)] text-2xl font-bold text-[var(--st-text)]">
               {item.title}
             </h3>
+            {item.role && (
+              <p className="mt-0.5 text-sm font-semibold text-[var(--st-accent)]">{item.role}</p>
+            )}
             <p className="mt-2 leading-[1.55] text-[var(--st-muted)]">{item.text}</p>
           </div>
         </div>
